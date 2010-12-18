@@ -16,12 +16,16 @@
  */
 package br.com.caelum.vraptor.html.example;
 
+import java.util.Arrays;
+import java.util.List;
+
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.html.Page;
 import br.com.caelum.vraptor.html.PageProcessor;
 import br.com.caelum.vraptor.html.example.page.IndexPage;
+import br.com.caelum.vraptor.html.example.page.ListPage;
 import br.com.caelum.vraptor.view.Results;
 
 @Resource
@@ -40,6 +44,12 @@ public class ExampleController {
 		result.use(Results.http()).body(pageProcessor.process(new IndexPage()));
 		//return new IndexPage();
 		return null;
+	}
+
+	@Path("/listing")
+	public void listing() {
+		List<String> cars = Arrays.asList("GM", "Ford", "VW");
+		result.use(Results.http()).body(pageProcessor.process(new ListPage(cars)));
 	}
 
 	@Path("/complex/route/to/page2")

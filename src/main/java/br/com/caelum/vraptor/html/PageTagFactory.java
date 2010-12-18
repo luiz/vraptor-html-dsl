@@ -7,6 +7,8 @@ import br.com.caelum.vraptor.html.tags.A;
 import br.com.caelum.vraptor.html.tags.Body;
 import br.com.caelum.vraptor.html.tags.Head;
 import br.com.caelum.vraptor.html.tags.Html;
+import br.com.caelum.vraptor.html.tags.Li;
+import br.com.caelum.vraptor.html.tags.Ol;
 import br.com.caelum.vraptor.html.tags.P;
 import br.com.caelum.vraptor.html.tags.Span;
 import br.com.caelum.vraptor.html.tags.Tag;
@@ -127,5 +129,35 @@ public class PageTagFactory {
 
 	public static Span span(Attributes attributes, String content) {
 		return new Span(attributes, new Text(content));
+	}
+	public static Li li(Tag... children) {
+		return new Li(new Attributes(), children);
+	}
+
+	public static Li li(Attributes attributes, Tag... children) {
+		return new Li(attributes, children);
+	}
+
+	public static Li li(String content) {
+		return new Li(new Attributes(), new Text(content));
+	}
+
+	public static Li li(Attributes attributes, String content) {
+		return new Li(attributes, new Text(content));
+	}
+	public static Ol ol(Tag... children) {
+		return new Ol(new Attributes(), children);
+	}
+
+	public static Ol ol(Attributes attributes, Tag... children) {
+		return new Ol(attributes, children);
+	}
+
+	public static Ol ol(String content) {
+		return new Ol(new Attributes(), new Text(content));
+	}
+
+	public static Ol ol(Attributes attributes, String content) {
+		return new Ol(attributes, new Text(content));
 	}
 }

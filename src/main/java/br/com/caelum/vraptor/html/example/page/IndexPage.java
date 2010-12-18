@@ -21,6 +21,7 @@ public class IndexPage implements Page {
 
 	public Html render() {
 		Link page2 = link(); to(ExampleController.class).page2();
+		Link table = link(); to(ExampleController.class).listing();
 		Link google = link("http://google.com");
 
 		return html(
@@ -32,6 +33,10 @@ public class IndexPage implements Page {
 						text("This page has a "),
 						a(attrs(href(page2)), "complex link"),
 						span(" to another page")
+					),
+					p(
+						text("To "),
+						a(attrs(href(table)), "a page with a table")
 					),
 					p(
 						text("And for "),
