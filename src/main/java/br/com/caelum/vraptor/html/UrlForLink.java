@@ -13,6 +13,17 @@ import br.com.caelum.vraptor.proxy.MethodInvocation;
 import br.com.caelum.vraptor.proxy.Proxifier;
 import br.com.caelum.vraptor.proxy.SuperMethod;
 
+/**
+ * <p>Generates and stores a link to a controller using a proxy of such controller.</p>
+ *
+ * <p>When the method that is the target of this link is invoked in the proxy, the
+ * invocation is intercepted and VRaptor's router is used to generate a path to
+ * the invoked method. A {@link Linker} requests an instance of this object from
+ * VRaptor's DI Container.</p>
+ *
+ * @author luiz
+ * @see Linker
+ */
 @Component @PrototypeScoped
 public class UrlForLink implements Link {
 
@@ -27,10 +38,28 @@ public class UrlForLink implements Link {
 		this.request = request;
 	}
 
+	/**
+	 * <p>
+	 * Generates a proxy of the given class, so that any method call on that
+	 * proxy is intercepted and an URL for that method is generated, using
+	 * VRaptor's Router.
+	 * </p>
+	 *
+	 * <p>
+	 * An example of use would be:
+	 * <code>linker.saveLinkTo(MyController.class).myMethod()</code>.
+	 * </p>
+	 *
+	 * @param <T>
+	 *            The controller's type
+	 * @param controller
+	 *            The controller's class
+	 * @return A proxy of the given class
+	 */
 	public <T> T saveLinkTo(final Class<T> controller) {
 		return proxifier.proxify(controller, new MethodInvocation<T>() {
 
-			public Object intercept(T instance, Method method, Object[] args, SuperMethod superMethod) {
+			public Object intercept(T proxyController, Method method, Object[] args, SuperMethod superMethod) {
 				url = request.getContextPath() + router.urlFor(controller, method, args);
 				return null;
 			}
@@ -38,6 +67,15 @@ public class UrlForLink implements Link {
 		});
 	}
 
+	/**
+	 * <p>
+	 * Retrieves the generated URL, after the method invocation.
+	 * </p>
+	 *
+	 * @exception NullPointerException
+	 *                If this method is called before completing the generation
+	 *                of the link
+	 */
 	public String url() {
 		checkNotNull(url, "Incomplete URL generation");
 		return url;

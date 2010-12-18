@@ -2,11 +2,11 @@ package br.com.caelum.vraptor.html.example.page;
 
 import static br.com.caelum.vraptor.html.Linker.link;
 import static br.com.caelum.vraptor.html.Linker.to;
+import static br.com.caelum.vraptor.html.PageAttributeFactory.attrs;
+import static br.com.caelum.vraptor.html.PageAttributeFactory.href;
 import static br.com.caelum.vraptor.html.PageTagFactory.a;
-import static br.com.caelum.vraptor.html.PageTagFactory.attrs;
 import static br.com.caelum.vraptor.html.PageTagFactory.body;
 import static br.com.caelum.vraptor.html.PageTagFactory.head;
-import static br.com.caelum.vraptor.html.PageTagFactory.href;
 import static br.com.caelum.vraptor.html.PageTagFactory.html;
 import static br.com.caelum.vraptor.html.PageTagFactory.p;
 import static br.com.caelum.vraptor.html.PageTagFactory.span;
@@ -22,6 +22,7 @@ public class IndexPage implements Page {
 	public Html render() {
 		Link page2 = link(); to(ExampleController.class).page2();
 		Link table = link(); to(ExampleController.class).listing();
+		Link dontClick = link(to(ExampleController.class).test());
 		Link google = link("http://google.com");
 
 		return html(
@@ -44,7 +45,7 @@ public class IndexPage implements Page {
 					),
 					p(
 						text("And yet "),
-						a(attrs(href(link(to(ExampleController.class).test()))), "a link you should not click")
+						a(attrs(href(dontClick)), "a link you should not click")
 					)
 				)
 			);

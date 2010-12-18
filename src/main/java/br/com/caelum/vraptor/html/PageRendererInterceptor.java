@@ -10,6 +10,10 @@ import br.com.caelum.vraptor.core.MethodInfo;
 import br.com.caelum.vraptor.interceptor.Interceptor;
 import br.com.caelum.vraptor.resource.ResourceMethod;
 
+/**
+ * <p>An interceptor to transform a Page object returned from a controller into HTML. Not working yet.</p>
+ * @author luiz
+ */
 //@Intercepts
 public class PageRendererInterceptor implements Interceptor {
 

@@ -1,27 +1,25 @@
 package br.com.caelum.vraptor.html.tags;
 
-import br.com.caelum.vraptor.html.attributes.Attributes;
-
 /**
- * The ugly duck
+ * <p>
+ * This class represents text inside an HTML document.
+ * </p>
+ *
  * @author luiz
  */
-public class Text implements Tag {
+public class Text implements NestedElement {
 	private final String text;
 
 	public Text(String text) {
 		this.text = text;
 	}
 
-	public Attributes getAttributes() {
-		return null;
-	}
-
-	public Tag[] getChildren() {
-		return null;
-	}
-
-	public String getText() {
+	/**
+	 * <p>
+	 * Just returns the String passed in the constructor
+	 * </p>
+	 */
+	public String toHtml() {
 		return this.text;
 	}
 }

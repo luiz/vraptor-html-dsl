@@ -24,14 +24,14 @@ public class TagsBuilder<T> {
 				SuperMethod superMethod) {
 			verifyPassedMethod(formatter);
 			for (T object : objects) {
-				Tag formatted = (Tag) new Mirror().on(this.page).invoke().method(formatter).withArgs(object);
+				NestedElement formatted = (NestedElement) new Mirror().on(this.page).invoke().method(formatter).withArgs(object);
 				tags.append(formatted);
 			}
-			return null;
+			return tags;
 		}
 
 		private void verifyPassedMethod(Method formatter) {
-			checkArgument(Tag.class.isAssignableFrom(formatter.getReturnType()),
+			checkArgument(NestedElement.class.isAssignableFrom(formatter.getReturnType()),
 					"The formatting method %s must return a Tag",
 					formatter.toGenericString());
 			checkArgument(formatter.getParameterTypes().length == 1,

@@ -4,15 +4,16 @@ import br.com.caelum.vraptor.html.attributes.Attributes;
 
 public class Li implements Tag {
 	private final Attributes attributes;
-	private final Tag[] children;
+	private final NestedElement[] children;
+	private final TagTransformer tagTransformer = new DefaultTagTransformer();
 
-	public Li(Attributes attributes, Tag... children) {
+	public Li(Attributes attributes, NestedElement... children) {
 		this.attributes = attributes;
 		this.children = children;
 
 	}
 
-	public Tag[] getChildren() {
+	public NestedElement[] getChildren() {
 		return children;
 	}
 
@@ -20,4 +21,7 @@ public class Li implements Tag {
 		return attributes;
 	}
 
+	public String toHtml() {
+		return tagTransformer.transform(this);
+	}
 }

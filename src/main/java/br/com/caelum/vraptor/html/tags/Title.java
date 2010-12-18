@@ -4,10 +4,11 @@ import br.com.caelum.vraptor.html.attributes.Attributes;
 
 public class Title implements Tag {
 
-	private final Tag[] children;
+	private final NestedElement[] children;
 	private final Attributes attributes;
+	private final TagTransformer tagTransformer = new DefaultTagTransformer();
 
-	public Title(Attributes attributes, Tag... children) {
+	public Title(Attributes attributes, NestedElement... children) {
 		this.attributes = attributes;
 		this.children = children;
 	}
@@ -16,7 +17,11 @@ public class Title implements Tag {
 		return this.attributes;
 	}
 
-	public Tag[] getChildren() {
+	public NestedElement[] getChildren() {
 		return this.children;
+	}
+
+	public String toHtml() {
+		return tagTransformer.transform(this);
 	}
 }

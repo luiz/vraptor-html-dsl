@@ -60,10 +60,9 @@ public class ExampleController {
 		return 42;
 	}
 
-	@Path("/cars/:car")
-	public String show(String car) {
+	@Path("/cars/{car}")
+	public void show(String car) {
 		result.use(Results.http()).body(car);
-		return car;
 	}
 
 }
