@@ -1,0 +1,21 @@
+VRAPTOR BLANK PROJECT WITH HTML DSL
+--------------------------------------------------------------------------------
+
+IMPORTING THIS PROJECT ON ECLIPSE
+
+In order to import this project on Eclipse, you'll need:
+	* choose menu file/import existent projects
+	* choose this directory
+	* after importing, if there is a classpath problem it means you dont have Apache Tomcat 6 configured. You
+	   can just configure a new server in window/preferences/servers, creating a new instance, and add the Server Runtime
+	   as a library inside the project build path
+	* just right click on the project, run as, run on server. choose a servlet container or configure a new one
+	* done! check the log files. access http://localhost:8080/vraptor-blank-project/ (or change 8080 to the appropriate port).
+
+IMPORTING THIS PROJECT ON NETBEANS 6.8
+
+	* choose menu File >> Open Project
+	* choose this directory
+	* right click on project and choose Run
+	* There might be a "It Works! VRaptor" message on the browser that has just opened.
+
