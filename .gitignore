@@ -1,6 +1,6 @@
-.classpath
-.project
-.settings
+/.classpath
+/.project
+/.settings
 *~
 .*.swp
-target
+/target
