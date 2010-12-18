@@ -22,7 +22,6 @@ import java.util.List;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.html.Page;
 import br.com.caelum.vraptor.html.PageProcessor;
 import br.com.caelum.vraptor.html.example.page.IndexPage;
 import br.com.caelum.vraptor.html.example.page.ListPage;
@@ -40,13 +39,11 @@ public class ExampleController {
 	}
 
 	@Path("/")
-	public Page index() {
+	public void index() {
 		result.use(Results.http()).body(pageProcessor.process(new IndexPage()));
-		//return new IndexPage();
-		return null;
 	}
 
-	@Path("/listing")
+	@Path("/cars")
 	public void listing() {
 		List<String> cars = Arrays.asList("GM", "Ford", "VW");
 		result.use(Results.http()).body(pageProcessor.process(new ListPage(cars)));
@@ -59,7 +56,14 @@ public class ExampleController {
 
 	@Path("/magicNumber")
 	public Integer test() {
+		result.use(Results.http()).body("42");
 		return 42;
+	}
+
+	@Path("/cars/:car")
+	public String show(String car) {
+		result.use(Results.http()).body(car);
+		return car;
 	}
 
 }

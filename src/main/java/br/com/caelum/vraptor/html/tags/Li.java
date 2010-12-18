@@ -12,12 +12,10 @@ public class Li implements Tag {
 
 	}
 
-	@Override
 	public Tag[] getChildren() {
 		return children;
 	}
 
-	@Override
 	public Attributes getAttributes() {
 		return attributes;
 	}

@@ -1,13 +1,22 @@
 package br.com.caelum.vraptor.html.example.page;
+import static br.com.caelum.vraptor.html.Linker.link;
+import static br.com.caelum.vraptor.html.Linker.to;
+import static br.com.caelum.vraptor.html.PageTagFactory.a;
+import static br.com.caelum.vraptor.html.PageTagFactory.attrs;
 import static br.com.caelum.vraptor.html.PageTagFactory.body;
+import static br.com.caelum.vraptor.html.PageTagFactory.href;
 import static br.com.caelum.vraptor.html.PageTagFactory.html;
 import static br.com.caelum.vraptor.html.PageTagFactory.li;
 import static br.com.caelum.vraptor.html.PageTagFactory.ol;
+import static br.com.caelum.vraptor.html.PageTagFactory.p;
+import static br.com.caelum.vraptor.html.tags.Tags.format;
 
 import java.util.List;
 
 import br.com.caelum.vraptor.html.Page;
+import br.com.caelum.vraptor.html.example.ExampleController;
 import br.com.caelum.vraptor.html.tags.Html;
+import br.com.caelum.vraptor.html.tags.Tag;
 import br.com.caelum.vraptor.html.tags.Tags;
 
 public class ListPage implements Page {
@@ -18,30 +27,34 @@ public class ListPage implements Page {
 		this.cars = cars;
 	}
 
-	@Override
 	public Html render() {
 		return html(
 				body(
+						p("You can construct the list by creating a Tags object:"),
 						ol(
-						  cars()
+							cars()
+						),
+						p("Or you can use the \"magic\" Tags.format method:"),
+						ol(
+						  format(cars).using(this).tagFor(null)
 						)
 				)
 			);
 	}
 
-//	private Tag toTag(String car) {
-//		...;
-//	}
-
 	private Tags cars() {
-		//Tags.foreach(cars).use(TablePage.class).toTag(null);
-
-
 		Tags tags = new Tags();
 		for (String car : cars) {
-			tags.append(li(car));
+			tags.append(tagFor(car));
 		}
 		return tags;
+	}
+
+	public Tag tagFor(String car) {
+		return li(
+					a(attrs(href(link(to(ExampleController.class).show(car)))),
+						car)
+				);
 	}
 
 }
