@@ -12,7 +12,7 @@ public interface NestedElement {
 	 * <p>
 	 * Requests the HTML representation of the object. Usually the
 	 * transformation is delegated to {@link DefaultTagTransformer}. The
-	 * exceptions are {@link Text} and {@link Tags}, which are not real HTML
+	 * exceptions are {@link Text} and {@link Elements}, which are not real HTML
 	 * tags.
 	 * </p>
 	 *

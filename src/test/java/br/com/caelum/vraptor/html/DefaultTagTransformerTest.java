@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import br.com.caelum.vraptor.html.tags.DefaultTagTransformer;
-import br.com.caelum.vraptor.html.tags.Tags;
+import br.com.caelum.vraptor.html.tags.Elements;
 
 public class DefaultTagTransformerTest {
 	@Test
@@ -46,7 +46,7 @@ public class DefaultTagTransformerTest {
 
 	@Test
 	public void transformAPageWithATagsObjectIntoCorrectHTML() throws Exception {
-		Tags tags = new Tags();
+		Elements tags = new Elements();
 		tags.append(p("First paragraph"));
 		tags.append(p("Second paragraph"));
 
