@@ -13,4 +13,6 @@ public interface TagTransformer {
 
 	public String transform(Tag tag);
 
+	public String transform(Tag tag, String name);
+
 }

@@ -19,18 +19,7 @@ public class DefaultTagTransformer implements TagTransformer {
 
 	public String transform(Tag tag) {
 		String tagName = tag.getClass().getSimpleName().toLowerCase();
-		StringBuilder sb = new StringBuilder();
-		sb.append('<');
-		sb.append(tagName);
-		sb.append(transformToHtml(tag.getAttributes()));
-		sb.append('>');
-		for (NestedElement child : tag.getChildren()) {
-			sb.append(child.toHtml());
-		}
-		sb.append("</");
-		sb.append(tagName);
-		sb.append('>');
-		return sb.toString();
+		return transform(tag, tagName);
 	}
 
 	private String transformToHtml(Attributes attributes) {
@@ -45,6 +34,22 @@ public class DefaultTagTransformer implements TagTransformer {
 	private String transformToHtml(Attribute attribute) {
 		String attributeName = attribute.getClass().getSimpleName().toLowerCase();
 		return format("%s=\"%s\"", attributeName, attribute.getValue());
+	}
+
+	@Override
+	public String transform(Tag tag, String name) {
+		StringBuilder sb = new StringBuilder();
+		sb.append('<');
+		sb.append(name);
+		sb.append(transformToHtml(tag.getAttributes()));
+		sb.append('>');
+		for (NestedElement child : tag.getChildren()) {
+			sb.append(child.toHtml());
+		}
+		sb.append("</");
+		sb.append(name);
+		sb.append('>');
+		return sb.toString();
 	}
 
 }

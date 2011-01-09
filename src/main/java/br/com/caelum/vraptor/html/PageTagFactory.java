@@ -2,14 +2,18 @@ package br.com.caelum.vraptor.html;
 
 import br.com.caelum.vraptor.html.attributes.Attributes;
 import br.com.caelum.vraptor.html.tags.A;
+import br.com.caelum.vraptor.html.tags.Base;
 import br.com.caelum.vraptor.html.tags.Body;
+import br.com.caelum.vraptor.html.tags.FormFor;
 import br.com.caelum.vraptor.html.tags.Head;
+import br.com.caelum.vraptor.html.tags.HeadTag;
 import br.com.caelum.vraptor.html.tags.Html;
+import br.com.caelum.vraptor.html.tags.Input;
 import br.com.caelum.vraptor.html.tags.Li;
+import br.com.caelum.vraptor.html.tags.NestedElement;
 import br.com.caelum.vraptor.html.tags.Ol;
 import br.com.caelum.vraptor.html.tags.P;
 import br.com.caelum.vraptor.html.tags.Span;
-import br.com.caelum.vraptor.html.tags.NestedElement;
 import br.com.caelum.vraptor.html.tags.Text;
 import br.com.caelum.vraptor.html.tags.Title;
 
@@ -37,20 +41,12 @@ public class PageTagFactory {
 		return new Html(attributes, new Text(content));
 	}
 
-	public static Head head(NestedElement... children) {
+	public static Head head(HeadTag... children) {
 		return new Head(new Attributes(), children);
 	}
 
-	public static Head head(Attributes attributes, NestedElement... children) {
+	public static Head head(Attributes attributes, HeadTag... children) {
 		return new Head(attributes, children);
-	}
-
-	public static Head head(String content) {
-		return new Head(new Attributes(), new Text(content));
-	}
-
-	public static Head head(Attributes attributes, String content) {
-		return new Head(attributes, new Text(content));
 	}
 
 	public static Title title(NestedElement... children) {
@@ -167,5 +163,25 @@ public class PageTagFactory {
 
 	public static Ol ol(Attributes attributes, String content) {
 		return new Ol(attributes, new Text(content));
+	}
+
+	public static Base base(Attributes attributes) {
+		return new Base(attributes);
+	}
+	
+	public static FormFor formFor(Object resource, Object... fields) {
+		return new FormFor(resource, new Attributes());
+	}
+	
+	public static Input input(Attributes attributes) {
+		return new Input(attributes);
+	}
+	
+	public static Input input(NestedElement... children) {
+		return new Input(new Attributes(), children);
+	}
+
+	public static Input input(Attributes attributes, NestedElement... children) {
+		return new Input(attributes, children);
 	}
 }
