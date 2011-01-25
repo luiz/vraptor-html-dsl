@@ -1,4 +1,4 @@
-package br.com.caelum.vraptor.html.tags;
+package br.com.caelum.vraptor.html.tags.interfaces;
 
 import br.com.caelum.vraptor.html.attributes.Attributes;
 

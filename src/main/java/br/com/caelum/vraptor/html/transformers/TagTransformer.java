@@ -1,4 +1,6 @@
-package br.com.caelum.vraptor.html.tags;
+package br.com.caelum.vraptor.html.transformers;
+
+import br.com.caelum.vraptor.html.tags.interfaces.Tag;
 
 /**
  * <p>

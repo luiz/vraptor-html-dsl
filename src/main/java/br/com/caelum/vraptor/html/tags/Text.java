@@ -1,5 +1,7 @@
 package br.com.caelum.vraptor.html.tags;
 
+import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
+
 /**
  * <p>
  * This class represents text inside an HTML document.

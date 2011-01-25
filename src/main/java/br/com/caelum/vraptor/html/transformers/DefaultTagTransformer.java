@@ -1,8 +1,10 @@
-package br.com.caelum.vraptor.html.tags;
+package br.com.caelum.vraptor.html.transformers;
 
 import static java.lang.String.format;
 import br.com.caelum.vraptor.html.attributes.Attribute;
 import br.com.caelum.vraptor.html.attributes.Attributes;
+import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
+import br.com.caelum.vraptor.html.tags.interfaces.Tag;
 
 /**
  * <p>
@@ -36,7 +38,6 @@ public class DefaultTagTransformer implements TagTransformer {
 		return format("%s=\"%s\"", attributeName, attribute.getValue());
 	}
 
-	@Override
 	public String transform(Tag tag, String name) {
 		StringBuilder sb = new StringBuilder();
 		sb.append('<');

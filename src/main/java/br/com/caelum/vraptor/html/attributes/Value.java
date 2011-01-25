@@ -5,7 +5,6 @@ public class Value implements Attribute {
 	public Value(String value) {
 		this.value = value;
 	}
-	@Override
 	public String getValue() {
 		return value;
 	}

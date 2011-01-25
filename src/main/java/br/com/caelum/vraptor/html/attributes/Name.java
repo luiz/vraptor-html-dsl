@@ -5,7 +5,6 @@ public class Name implements Attribute{
 	public Name(String value) {
 		this.value = value;
 	}
-	@Override
 	public String getValue() {
 		return value;
 	}

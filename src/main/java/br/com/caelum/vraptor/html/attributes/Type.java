@@ -5,7 +5,6 @@ public class Type implements Attribute {
 	public Type(String value) {
 		this.value = value;
 	}
-	@Override
 	public String getValue() {
 		return value;
 	}

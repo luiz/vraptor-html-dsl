@@ -1,4 +1,4 @@
-package br.com.caelum.vraptor.html.tags;
+package br.com.caelum.vraptor.html.tags.builders;
 
 import static br.com.caelum.vraptor.html.PageAttributeFactory.attrs;
 import static br.com.caelum.vraptor.html.PageAttributeFactory.name;
@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.caelum.vraptor.html.attributes.Attributes;
+import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
+import br.com.caelum.vraptor.html.tags.interfaces.Tag;
+import br.com.caelum.vraptor.html.transformers.DefaultTagTransformer;
+import br.com.caelum.vraptor.html.transformers.TagTransformer;
 import br.com.caelum.vraptor.proxy.DefaultProxifier;
 import br.com.caelum.vraptor.proxy.MethodInvocation;
 import br.com.caelum.vraptor.proxy.Proxifier;
@@ -20,14 +24,14 @@ import br.com.caelum.vraptor.proxy.SuperMethod;
 public class FormFor implements Tag {
 
 	private final List<NestedElement> children;
-	private final Object resource;
+	private final java.lang.Object resource;
 	private final Attributes attributes;
 	private final TagTransformer tagTransformer = new DefaultTagTransformer();
-	
+
 	private final static ThreadLocal<List<NestedElement>> childrenToGo = new ThreadLocal<List<NestedElement>>();
 	private final static Proxifier proxifier = new DefaultProxifier();
 
-	public FormFor(Object resource, Attributes attributes) {
+	public FormFor(java.lang.Object resource, Attributes attributes) {
 		this.resource = resource;
 		this.attributes = attributes;
 		this.children = getChildrenToGo();
@@ -45,7 +49,7 @@ public class FormFor implements Tag {
 	public Attributes getAttributes() {
 		return attributes;
 	}
-	
+
 	private static List<NestedElement> getChildrenToGo() {
 		List<NestedElement> list = childrenToGo.get();
 		if (list == null) {
@@ -60,10 +64,9 @@ public class FormFor implements Tag {
 		final Class<T> resourceClass = (Class<T>) resource.getClass();
 		return proxifier.proxify(resourceClass, new MethodInvocation<T>() {
 
-			@Override
-			public Object intercept(T proxyResource, Method getter, Object[] args, SuperMethod superMethod) {
+			public java.lang.Object intercept(T proxyResource, Method getter, java.lang.Object[] args, SuperMethod superMethod) {
 				String inputName = inputName(resourceClass, getter);
-				Object defaultValue = null;
+				java.lang.Object defaultValue = null;
 				try {
 					defaultValue = getter.invoke(resource);
 				} catch (Exception e) {
@@ -81,7 +84,7 @@ public class FormFor implements Tag {
 				}
 				return lowercaseFirstLetter(resourceClass.getSimpleName()) + "." + lowercaseFirstLetter(fieldName);
 			}
-			
+
 			private String lowercaseFirstLetter(String string) {
 				return Character.toLowerCase(string.charAt(0)) + string.substring(1);
 			}
@@ -92,7 +95,7 @@ public class FormFor implements Tag {
 			}
 
 
-			private NestedElement inputFor(String inputName, Object defaultValue) {
+			private NestedElement inputFor(String inputName, java.lang.Object defaultValue) {
 				Elements elements = new Elements();
 				elements.append(text(inputName));
 				if (defaultValue != null) {

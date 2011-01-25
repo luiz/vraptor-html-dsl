@@ -1,7 +1,9 @@
-package br.com.caelum.vraptor.html.tags;
+package br.com.caelum.vraptor.html.tags.builders;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
 
 /**
  * <p>

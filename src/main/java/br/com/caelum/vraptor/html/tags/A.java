@@ -1,6 +1,10 @@
 package br.com.caelum.vraptor.html.tags;
 
 import br.com.caelum.vraptor.html.attributes.Attributes;
+import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
+import br.com.caelum.vraptor.html.tags.interfaces.Tag;
+import br.com.caelum.vraptor.html.transformers.DefaultTagTransformer;
+import br.com.caelum.vraptor.html.transformers.TagTransformer;
 
 public class A implements Tag {
 

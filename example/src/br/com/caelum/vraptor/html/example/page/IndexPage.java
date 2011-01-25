@@ -6,14 +6,12 @@ import static br.com.caelum.vraptor.html.PageAttributeFactory.attrs;
 import static br.com.caelum.vraptor.html.PageAttributeFactory.href;
 import static br.com.caelum.vraptor.html.PageTagFactory.a;
 import static br.com.caelum.vraptor.html.PageTagFactory.body;
-import static br.com.caelum.vraptor.html.PageTagFactory.formFor;
 import static br.com.caelum.vraptor.html.PageTagFactory.head;
 import static br.com.caelum.vraptor.html.PageTagFactory.html;
 import static br.com.caelum.vraptor.html.PageTagFactory.p;
 import static br.com.caelum.vraptor.html.PageTagFactory.span;
 import static br.com.caelum.vraptor.html.PageTagFactory.text;
 import static br.com.caelum.vraptor.html.PageTagFactory.title;
-import static br.com.caelum.vraptor.html.tags.FormFor.with;
 import br.com.caelum.vraptor.html.Link;
 import br.com.caelum.vraptor.html.Page;
 import br.com.caelum.vraptor.html.example.ExampleController;
@@ -50,8 +48,9 @@ public class IndexPage implements Page {
 					p(
 						text("And yet "),
 						a(attrs(href(dontClick)), "a link you should not click")
-					),
-					formFor(person, with(person).getName(), with(person).getSex())
+					)
+					// TODO make the following work
+					//formFor(person, with(person).getName(), with(person).getSex())
 				)
 			);
 	}

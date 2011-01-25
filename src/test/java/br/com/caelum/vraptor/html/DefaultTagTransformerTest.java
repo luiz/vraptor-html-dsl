@@ -11,8 +11,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import br.com.caelum.vraptor.html.tags.DefaultTagTransformer;
-import br.com.caelum.vraptor.html.tags.Elements;
+import br.com.caelum.vraptor.html.tags.builders.Elements;
+import br.com.caelum.vraptor.html.transformers.DefaultTagTransformer;
 
 public class DefaultTagTransformerTest {
 	@Test

@@ -1,4 +1,4 @@
-package br.com.caelum.vraptor.html.tags;
+package br.com.caelum.vraptor.html.tags.builders;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import net.vidageek.mirror.dsl.Mirror;
+import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
 import br.com.caelum.vraptor.proxy.DefaultProxifier;
 import br.com.caelum.vraptor.proxy.MethodInvocation;
 import br.com.caelum.vraptor.proxy.SuperMethod;
@@ -37,7 +38,7 @@ public class ElementsBuilder<T> {
 			this.page = page;
 		}
 
-		public Object intercept(X proxyPage, Method formatter, Object[] args,
+		public java.lang.Object intercept(X proxyPage, Method formatter, java.lang.Object[] args,
 				SuperMethod superMethod) {
 			verifyPassedMethod(formatter);
 			for (T object : objects) {

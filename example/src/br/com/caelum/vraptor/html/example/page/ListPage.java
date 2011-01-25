@@ -10,16 +10,16 @@ import static br.com.caelum.vraptor.html.PageTagFactory.html;
 import static br.com.caelum.vraptor.html.PageTagFactory.li;
 import static br.com.caelum.vraptor.html.PageTagFactory.ol;
 import static br.com.caelum.vraptor.html.PageTagFactory.p;
-import static br.com.caelum.vraptor.html.tags.Elements.format;
+import static br.com.caelum.vraptor.html.tags.builders.Elements.format;
 
 import java.util.List;
 
 import br.com.caelum.vraptor.html.Link;
 import br.com.caelum.vraptor.html.Page;
 import br.com.caelum.vraptor.html.example.ExampleController;
-import br.com.caelum.vraptor.html.tags.Elements;
 import br.com.caelum.vraptor.html.tags.Html;
-import br.com.caelum.vraptor.html.tags.NestedElement;
+import br.com.caelum.vraptor.html.tags.builders.Elements;
+import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
 
 public class ListPage implements Page {
 

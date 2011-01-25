@@ -1,6 +1,10 @@
 package br.com.caelum.vraptor.html.tags;
 
 import br.com.caelum.vraptor.html.attributes.Attributes;
+import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
+import br.com.caelum.vraptor.html.tags.interfaces.Tag;
+import br.com.caelum.vraptor.html.transformers.DefaultTagTransformer;
+import br.com.caelum.vraptor.html.transformers.TagTransformer;
 
 public class Input implements Tag {
 
@@ -12,18 +16,15 @@ public class Input implements Tag {
 		this.attributes = attributes;
 		this.children = children;
 	}
-	
-	@Override
+
 	public String toHtml() {
 		return tagTransformer.transform(this);
 	}
 
-	@Override
 	public NestedElement[] getChildren() {
 		return children;
 	}
 
-	@Override
 	public Attributes getAttributes() {
 		return attributes;
 	}

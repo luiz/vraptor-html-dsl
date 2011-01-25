@@ -8,6 +8,10 @@ import java.util.List;
 
 import org.junit.Test;
 
+import br.com.caelum.vraptor.html.tags.builders.Elements;
+import br.com.caelum.vraptor.html.tags.builders.ElementsBuilder;
+import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
+
 public class ElementsBuilderTest {
 
 	@Test
