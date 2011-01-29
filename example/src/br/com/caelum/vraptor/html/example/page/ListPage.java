@@ -1,7 +1,5 @@
 package br.com.caelum.vraptor.html.example.page;
 
-import static br.com.caelum.vraptor.html.Linker.link;
-import static br.com.caelum.vraptor.html.Linker.to;
 import static br.com.caelum.vraptor.html.PageAttributeFactory.attrs;
 import static br.com.caelum.vraptor.html.PageAttributeFactory.href;
 import static br.com.caelum.vraptor.html.PageTagFactory.a;
@@ -10,12 +8,14 @@ import static br.com.caelum.vraptor.html.PageTagFactory.html;
 import static br.com.caelum.vraptor.html.PageTagFactory.li;
 import static br.com.caelum.vraptor.html.PageTagFactory.ol;
 import static br.com.caelum.vraptor.html.PageTagFactory.p;
+import static br.com.caelum.vraptor.html.UrlFactory.to;
+import static br.com.caelum.vraptor.html.UrlFactory.url;
 import static br.com.caelum.vraptor.html.tags.builders.Elements.format;
 
 import java.util.List;
 
-import br.com.caelum.vraptor.html.Link;
 import br.com.caelum.vraptor.html.Page;
+import br.com.caelum.vraptor.html.Url;
 import br.com.caelum.vraptor.html.example.ExampleController;
 import br.com.caelum.vraptor.html.tags.Html;
 import br.com.caelum.vraptor.html.tags.builders.Elements;
@@ -53,7 +53,7 @@ public class ListPage implements Page {
 	}
 
 	public NestedElement tagFor(String car) {
-		Link linkToCar = link(); to(ExampleController.class).show(car);
+		Url linkToCar = url(); to(ExampleController.class).show(car);
 		return li(
 					a(attrs(href(linkToCar)),
 						car)

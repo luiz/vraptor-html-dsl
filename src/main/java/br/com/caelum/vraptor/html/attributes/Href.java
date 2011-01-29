@@ -1,13 +1,13 @@
 package br.com.caelum.vraptor.html.attributes;
 
-import br.com.caelum.vraptor.html.Link;
+import br.com.caelum.vraptor.html.Url;
 
 public class Href implements Attribute {
-	private final Link value;
-	public Href(Link nextPageLink) {
+	private final Url value;
+	public Href(Url nextPageLink) {
 		this.value = nextPageLink;
 	}
 	public String getValue() {
-		return value.url();
+		return value.value();
 	}
 }

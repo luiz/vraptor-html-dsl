@@ -5,13 +5,13 @@ package br.com.caelum.vraptor.html;
  *
  * @author luiz
  */
-public interface Link {
+public interface Url {
 
 	/**
 	 * <p>
-	 * Retrieves the link's URL.
+	 * Retrieves the URL as a String.
 	 * </p>
 	 */
-	public abstract String url();
+	public abstract String value();
 
 }

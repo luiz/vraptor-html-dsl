@@ -18,7 +18,7 @@ import br.com.caelum.vraptor.html.attributes.Value;
  */
 public class PageAttributeFactory {
 
-	public static Href href(Link value) {
+	public static Href href(Url value) {
 		return new Href(value);
 	}
 

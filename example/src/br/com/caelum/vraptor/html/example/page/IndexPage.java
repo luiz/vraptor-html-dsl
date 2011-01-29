@@ -1,7 +1,5 @@
 package br.com.caelum.vraptor.html.example.page;
 
-import static br.com.caelum.vraptor.html.Linker.link;
-import static br.com.caelum.vraptor.html.Linker.to;
 import static br.com.caelum.vraptor.html.PageAttributeFactory.attrs;
 import static br.com.caelum.vraptor.html.PageAttributeFactory.href;
 import static br.com.caelum.vraptor.html.PageTagFactory.a;
@@ -12,8 +10,10 @@ import static br.com.caelum.vraptor.html.PageTagFactory.p;
 import static br.com.caelum.vraptor.html.PageTagFactory.span;
 import static br.com.caelum.vraptor.html.PageTagFactory.text;
 import static br.com.caelum.vraptor.html.PageTagFactory.title;
-import br.com.caelum.vraptor.html.Link;
+import static br.com.caelum.vraptor.html.UrlFactory.to;
+import static br.com.caelum.vraptor.html.UrlFactory.url;
 import br.com.caelum.vraptor.html.Page;
+import br.com.caelum.vraptor.html.Url;
 import br.com.caelum.vraptor.html.example.ExampleController;
 import br.com.caelum.vraptor.html.example.Person;
 import br.com.caelum.vraptor.html.tags.Html;
@@ -21,10 +21,10 @@ import br.com.caelum.vraptor.html.tags.Html;
 public class IndexPage implements Page {
 
 	public Html render() {
-		Link page2 = link(); to(ExampleController.class).page2();
-		Link table = link(); to(ExampleController.class).listing();
-		Link dontClick = link(to(ExampleController.class).test());
-		Link google = link("http://google.com");
+		Url page2 = url(); to(ExampleController.class).page2();
+		Url table = url(); to(ExampleController.class).listing();
+		Url dontClick = url(to(ExampleController.class).test());
+		Url google = url("http://google.com");
 
 		Person person = new Person();
 		return html(

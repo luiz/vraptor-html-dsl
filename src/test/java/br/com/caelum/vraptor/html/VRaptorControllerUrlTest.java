@@ -18,20 +18,20 @@ import br.com.caelum.vraptor.proxy.DefaultProxifier;
 import br.com.caelum.vraptor.proxy.Proxifier;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UrlForLinkTest {
+public class VRaptorControllerUrlTest {
 	private static final String CONTEXT = "/context";
 
 	private @Mock Router router;
 	private @Mock HttpServletRequest request;
 
 	private Proxifier proxifier;
-	private UrlForLink link;
+	private VRaptorControllerUrl link;
 
 	@Before
 	public void setUp() throws Exception {
 		proxifier = new DefaultProxifier();
 		when(request.getContextPath()).thenReturn(CONTEXT);
-		link = new UrlForLink(router, proxifier, request);
+		link = new VRaptorControllerUrl(router, proxifier, request);
 	}
 
 	@Test
@@ -41,9 +41,9 @@ public class UrlForLinkTest {
 
 		when(router.urlFor(controller, MyController.MY_METHOD, args)).thenReturn("/path/to/method");
 
-		link.saveLinkTo(controller).myMethod();
+		link.saveUrlTo(controller).myMethod();
 
-		assertEquals(CONTEXT + "/path/to/method", link.url());
+		assertEquals(CONTEXT + "/path/to/method", link.value());
 	}
 
 	@Test
@@ -53,14 +53,14 @@ public class UrlForLinkTest {
 
 		when(router.urlFor(controller, MyController.OTHER_METHOD, args)).thenReturn("/path/to/other");
 
-		link.saveLinkTo(controller).otherMethod("other");
+		link.saveUrlTo(controller).otherMethod("other");
 
-		assertEquals(CONTEXT + "/path/to/other", link.url());
+		assertEquals(CONTEXT + "/path/to/other", link.value());
 	}
 
 	@Test(expected=NullPointerException.class)
 	public void throwsExceptionWhenTryingToRetrieveUrlWithoutSavingTheLink() throws Exception {
-		UrlForLink link = new UrlForLink(router, proxifier, request);
-		link.url();
+		VRaptorControllerUrl link = new VRaptorControllerUrl(router, proxifier, request);
+		link.value();
 	}
 }

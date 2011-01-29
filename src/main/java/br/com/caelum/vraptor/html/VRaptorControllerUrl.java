@@ -14,25 +14,25 @@ import br.com.caelum.vraptor.proxy.Proxifier;
 import br.com.caelum.vraptor.proxy.SuperMethod;
 
 /**
- * <p>Generates and stores a link to a controller using a proxy of such controller.</p>
+ * <p>Generates and stores an url to a controller using a proxy of such controller.</p>
  *
- * <p>When the method that is the target of this link is invoked in the proxy, the
+ * <p>When the method that is the target of this url is invoked in the proxy, the
  * invocation is intercepted and VRaptor's router is used to generate a path to
- * the invoked method. A {@link Linker} requests an instance of this object from
+ * the invoked method. A {@link UrlFactory} requests an instance of this object from
  * VRaptor's DI Container.</p>
  *
  * @author luiz
- * @see Linker
+ * @see UrlFactory
  */
 @Component @PrototypeScoped
-public class UrlForLink implements Link {
+public class VRaptorControllerUrl implements Url {
 
 	private String url = null;
 	private final Router router;
 	private final Proxifier proxifier;
 	private final HttpServletRequest request;
 
-	UrlForLink(Router router, Proxifier proxifier, HttpServletRequest request) {
+	VRaptorControllerUrl(Router router, Proxifier proxifier, HttpServletRequest request) {
 		this.router = router;
 		this.proxifier = proxifier;
 		this.request = request;
@@ -47,7 +47,7 @@ public class UrlForLink implements Link {
 	 *
 	 * <p>
 	 * An example of use would be:
-	 * <code>linker.saveLinkTo(MyController.class).myMethod()</code>.
+	 * <code>linker.saveUrlTo(MyController.class).myMethod()</code>.
 	 * </p>
 	 *
 	 * @param <T>
@@ -56,7 +56,7 @@ public class UrlForLink implements Link {
 	 *            The controller's class
 	 * @return A proxy of the given class
 	 */
-	public <T> T saveLinkTo(final Class<T> controller) {
+	public <T> T saveUrlTo(final Class<T> controller) {
 		return proxifier.proxify(controller, new MethodInvocation<T>() {
 
 			public Object intercept(T proxyController, Method method, Object[] args, SuperMethod superMethod) {
@@ -76,7 +76,7 @@ public class UrlForLink implements Link {
 	 *                If this method is called before completing the generation
 	 *                of the link
 	 */
-	public String url() {
+	public String value() {
 		checkNotNull(url, "Incomplete URL generation");
 		return url;
 	}
