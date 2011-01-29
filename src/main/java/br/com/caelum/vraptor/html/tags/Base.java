@@ -2,11 +2,11 @@ package br.com.caelum.vraptor.html.tags;
 
 import br.com.caelum.vraptor.html.attributes.Attributes;
 import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
-import br.com.caelum.vraptor.html.tags.interfaces.structure.HeadTag;
+import br.com.caelum.vraptor.html.tags.interfaces.structure.HeadTagChild;
 import br.com.caelum.vraptor.html.transformers.DefaultTagTransformer;
 import br.com.caelum.vraptor.html.transformers.TagTransformer;
 
-public class Base implements HeadTag{
+public class Base implements HeadTagChild{
 	
 	private static final NestedElement[] EMPTY = new NestedElement[0];
 	private final Attributes attributes;

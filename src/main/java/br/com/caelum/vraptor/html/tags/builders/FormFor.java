@@ -1,11 +1,11 @@
 package br.com.caelum.vraptor.html.tags.builders;
 
-import static br.com.caelum.vraptor.html.PageAttributeFactory.attrs;
-import static br.com.caelum.vraptor.html.PageAttributeFactory.name;
-import static br.com.caelum.vraptor.html.PageAttributeFactory.type;
-import static br.com.caelum.vraptor.html.PageAttributeFactory.value;
-import static br.com.caelum.vraptor.html.PageTagFactory.input;
-import static br.com.caelum.vraptor.html.PageTagFactory.text;
+import static br.com.caelum.vraptor.html.factories.PageAttributeFactory.attrs;
+import static br.com.caelum.vraptor.html.factories.PageAttributeFactory.name;
+import static br.com.caelum.vraptor.html.factories.PageAttributeFactory.type;
+import static br.com.caelum.vraptor.html.factories.PageAttributeFactory.value;
+import static br.com.caelum.vraptor.html.factories.PageTagFactory.input;
+import static br.com.caelum.vraptor.html.factories.PageTagFactory.text;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

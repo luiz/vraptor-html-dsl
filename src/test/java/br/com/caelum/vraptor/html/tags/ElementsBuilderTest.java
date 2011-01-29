@@ -1,6 +1,6 @@
 package br.com.caelum.vraptor.html.tags;
 
-import static br.com.caelum.vraptor.html.PageTagFactory.p;
+import static br.com.caelum.vraptor.html.factories.PageTagFactory.p;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;

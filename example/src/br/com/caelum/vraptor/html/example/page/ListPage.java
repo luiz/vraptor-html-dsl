@@ -1,15 +1,15 @@
 package br.com.caelum.vraptor.html.example.page;
 
-import static br.com.caelum.vraptor.html.PageAttributeFactory.attrs;
-import static br.com.caelum.vraptor.html.PageAttributeFactory.href;
-import static br.com.caelum.vraptor.html.PageTagFactory.a;
-import static br.com.caelum.vraptor.html.PageTagFactory.body;
-import static br.com.caelum.vraptor.html.PageTagFactory.html;
-import static br.com.caelum.vraptor.html.PageTagFactory.li;
-import static br.com.caelum.vraptor.html.PageTagFactory.ol;
-import static br.com.caelum.vraptor.html.PageTagFactory.p;
 import static br.com.caelum.vraptor.html.UrlFactory.to;
 import static br.com.caelum.vraptor.html.UrlFactory.url;
+import static br.com.caelum.vraptor.html.factories.PageAttributeFactory.attrs;
+import static br.com.caelum.vraptor.html.factories.PageAttributeFactory.href;
+import static br.com.caelum.vraptor.html.factories.PageTagFactory.a;
+import static br.com.caelum.vraptor.html.factories.PageTagFactory.body;
+import static br.com.caelum.vraptor.html.factories.PageTagFactory.html;
+import static br.com.caelum.vraptor.html.factories.PageTagFactory.li;
+import static br.com.caelum.vraptor.html.factories.PageTagFactory.ol;
+import static br.com.caelum.vraptor.html.factories.PageTagFactory.p;
 import static br.com.caelum.vraptor.html.tags.builders.Elements.format;
 
 import java.util.List;

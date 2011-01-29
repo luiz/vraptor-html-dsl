@@ -1,12 +1,12 @@
 package br.com.caelum.vraptor.html;
 
-import static br.com.caelum.vraptor.html.PageAttributeFactory.attrs;
-import static br.com.caelum.vraptor.html.PageAttributeFactory.lang;
-import static br.com.caelum.vraptor.html.PageTagFactory.body;
-import static br.com.caelum.vraptor.html.PageTagFactory.html;
-import static br.com.caelum.vraptor.html.PageTagFactory.p;
-import static br.com.caelum.vraptor.html.PageTagFactory.span;
-import static br.com.caelum.vraptor.html.PageTagFactory.text;
+import static br.com.caelum.vraptor.html.factories.PageAttributeFactory.attrs;
+import static br.com.caelum.vraptor.html.factories.PageAttributeFactory.lang;
+import static br.com.caelum.vraptor.html.factories.PageTagFactory.body;
+import static br.com.caelum.vraptor.html.factories.PageTagFactory.html;
+import static br.com.caelum.vraptor.html.factories.PageTagFactory.p;
+import static br.com.caelum.vraptor.html.factories.PageTagFactory.span;
+import static br.com.caelum.vraptor.html.factories.PageTagFactory.text;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;

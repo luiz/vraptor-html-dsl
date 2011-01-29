@@ -1,5 +1,12 @@
-package br.com.caelum.vraptor.html;
+package br.com.caelum.vraptor.html.factories;
 
+import static br.com.caelum.vraptor.html.factories.PageAttributeFactory.alt;
+import static br.com.caelum.vraptor.html.factories.PageAttributeFactory.attrs;
+import static br.com.caelum.vraptor.html.factories.PageAttributeFactory.href;
+import static br.com.caelum.vraptor.html.factories.PageAttributeFactory.rel;
+import static br.com.caelum.vraptor.html.factories.PageAttributeFactory.src;
+import static br.com.caelum.vraptor.html.factories.PageAttributeFactory.type;
+import br.com.caelum.vraptor.html.Url;
 import br.com.caelum.vraptor.html.attributes.Attributes;
 import br.com.caelum.vraptor.html.tags.A;
 import br.com.caelum.vraptor.html.tags.Abbr;
@@ -48,6 +55,7 @@ import br.com.caelum.vraptor.html.tags.Kbd;
 import br.com.caelum.vraptor.html.tags.Label;
 import br.com.caelum.vraptor.html.tags.Legend;
 import br.com.caelum.vraptor.html.tags.Li;
+import br.com.caelum.vraptor.html.tags.Link;
 import br.com.caelum.vraptor.html.tags.Map;
 import br.com.caelum.vraptor.html.tags.Meta;
 import br.com.caelum.vraptor.html.tags.Noframes;
@@ -84,7 +92,7 @@ import br.com.caelum.vraptor.html.tags.Ul;
 import br.com.caelum.vraptor.html.tags.Var;
 import br.com.caelum.vraptor.html.tags.builders.FormFor;
 import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
-import br.com.caelum.vraptor.html.tags.interfaces.structure.HeadTag;
+import br.com.caelum.vraptor.html.tags.interfaces.structure.HeadTagChild;
 
 /**
  * <p>
@@ -94,6 +102,32 @@ import br.com.caelum.vraptor.html.tags.interfaces.structure.HeadTag;
  * @author luiz
  */
 public class PageTagFactory {
+	/*
+	 * Shortcuts methods
+	 */
+	public static FormFor formFor(Object resource, Object... fields) {
+		return new FormFor(resource, new Attributes());
+	}
+
+	public static A link(Url destination) {
+		return a(attrs(href(destination)));
+	}
+
+	public static Link css(String cssFile) {
+		return link(attrs(rel("stylesheet"), type("text/css"), href(cssFile)));
+	}
+
+	public static Script js(String jsFile) {
+		return script(attrs(type("text/javascript"), src(jsFile)));
+	}
+
+	public static Img image(String imageFile, String altText) {
+		return img(attrs(src(imageFile), alt(altText)));
+	}
+
+	/*
+	 * Tags factory methods
+	 */
 	public static Html html(NestedElement... children) {
 		return new Html(new Attributes(), children);
 	}
@@ -110,11 +144,11 @@ public class PageTagFactory {
 		return new Html(attributes, new Text(content));
 	}
 
-	public static Head head(HeadTag... children) {
+	public static Head head(HeadTagChild... children) {
 		return new Head(new Attributes(), children);
 	}
 
-	public static Head head(Attributes attributes, HeadTag... children) {
+	public static Head head(Attributes attributes, HeadTagChild... children) {
 		return new Head(attributes, children);
 	}
 
@@ -236,10 +270,6 @@ public class PageTagFactory {
 
 	public static Base base(Attributes attributes) {
 		return new Base(attributes);
-	}
-
-	public static FormFor formFor(Object resource, Object... fields) {
-		return new FormFor(resource, new Attributes());
 	}
 
 	public static Input input(Attributes attributes) {
@@ -902,6 +932,23 @@ public class PageTagFactory {
 
 	public static Legend legend(Attributes attributes, String content) {
 		return new Legend(attributes, new Text(content));
+	}
+
+	public static Link link(NestedElement... children) {
+		return new Link(new Attributes(), children);
+	}
+
+	public static Link link(Attributes attributes,
+			NestedElement... children) {
+		return new Link(attributes, children);
+	}
+
+	public static Link link(String content) {
+		return new Link(new Attributes(), new Text(content));
+	}
+
+	public static Link link(Attributes attributes, String content) {
+		return new Link(attributes, new Text(content));
 	}
 
 	public static Map map(NestedElement... children) {

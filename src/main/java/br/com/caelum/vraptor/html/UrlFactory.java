@@ -53,11 +53,11 @@ public class UrlFactory {
 	 * @see UrlFactory#to(Class)
 	 */
 	public static Url url() {
-		VRaptorControllerUrl link = container.instanceFor(VRaptorControllerUrl.class);
-		LOGGER.debug("Building new link; got instance " + link
+		VRaptorControllerUrl url = container.instanceFor(VRaptorControllerUrl.class);
+		LOGGER.debug("Building new link; got instance " + url
 				+ " from container");
-		last.set(link);
-		return link;
+		last.set(url);
+		return url;
 	}
 
 	/**
@@ -66,11 +66,19 @@ public class UrlFactory {
 	 * </p>
 	 *
 	 * @param url
-	 *            The literal URL to be stored in the link
+	 *            The literal URL to be stored in the link, or an URL relative
+	 *            to the current web application. For instance, if your
+	 *            application is in the context "myApp" at the host
+	 *            "http://my-host.com" and you want an URL to
+	 *            "http://my-host.com/myApp/some/path", you can pass here
+	 *            "/some/path". This behavior is similar to the <tt>url</tt> tag
+	 *            in JSTL.
 	 * @return A fresh new instance of a {@link PlainUrl}, ready for use
 	 */
 	public static Url url(String url) {
-		return new PlainUrl(url);
+		PlainUrl plainUrl = container.instanceFor(PlainUrl.class);
+		plainUrl.saveUrlTo(url);
+		return plainUrl;
 	}
 
 	/**
