@@ -2,8 +2,6 @@ package br.com.caelum.vraptor.html.factories;
 
 import br.com.caelum.vraptor.html.Url;
 import br.com.caelum.vraptor.html.attributes.Alt;
-import br.com.caelum.vraptor.html.attributes.Attribute;
-import br.com.caelum.vraptor.html.attributes.Attributes;
 import br.com.caelum.vraptor.html.attributes.Href;
 import br.com.caelum.vraptor.html.attributes.Id;
 import br.com.caelum.vraptor.html.attributes.Lang;
@@ -33,10 +31,6 @@ public class PageAttributeFactory {
 
 	public static Lang lang(String value) {
 		return new Lang(value);
-	}
-
-	public static Attributes attrs(Attribute... attributes) {
-		return new Attributes(attributes);
 	}
 
 	public static Type type(String value) {

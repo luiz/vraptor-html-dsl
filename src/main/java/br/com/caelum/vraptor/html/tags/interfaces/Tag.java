@@ -1,6 +1,6 @@
 package br.com.caelum.vraptor.html.tags.interfaces;
 
-import br.com.caelum.vraptor.html.attributes.Attributes;
+import br.com.caelum.vraptor.html.attributes.Attribute;
 
 /**
  * <p>
@@ -27,6 +27,9 @@ public interface Tag extends NestedElement {
 	 *
 	 * @return An object that represents this tag's attributes
 	 */
-	public Attributes getAttributes();
+	public Attribute[] getAttributes();
 
+
+	public Tag with(NestedElement... children);
+	public Tag with(String content);
 }

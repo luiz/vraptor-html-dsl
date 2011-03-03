@@ -48,10 +48,10 @@ public class ElementsBuilderTest {
 
 class Formatter {
 	public NestedElement formatInt(Integer n) {
-		return p(Integer.valueOf(n + 1).toString());
+		return p().with(Integer.valueOf(n + 1).toString());
 	}
 	public NestedElement formatString(String str) {
-		return p(str);
+		return p().with(str);
 	}
 	public void strangeMethod(Integer n) {}
 	public NestedElement strangeMethod(Integer n, Integer m) {

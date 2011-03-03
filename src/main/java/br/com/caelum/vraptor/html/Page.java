@@ -1,8 +1,8 @@
 package br.com.caelum.vraptor.html;
 
-import br.com.caelum.vraptor.html.tags.Html;
+import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
 
 
 public interface Page {
-	public Html render();
+	public NestedElement render();
 }

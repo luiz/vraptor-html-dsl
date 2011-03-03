@@ -6,7 +6,7 @@ import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
  * <p>
  * This class represents text inside an HTML document.
  * </p>
- *
+ * 
  * @author luiz
  */
 public class Text implements NestedElement {

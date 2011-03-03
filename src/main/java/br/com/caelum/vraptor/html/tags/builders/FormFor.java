@@ -1,6 +1,5 @@
 package br.com.caelum.vraptor.html.tags.builders;
 
-import static br.com.caelum.vraptor.html.factories.PageAttributeFactory.attrs;
 import static br.com.caelum.vraptor.html.factories.PageAttributeFactory.name;
 import static br.com.caelum.vraptor.html.factories.PageAttributeFactory.type;
 import static br.com.caelum.vraptor.html.factories.PageAttributeFactory.value;
@@ -11,9 +10,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.caelum.vraptor.html.attributes.Attributes;
 import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
-import br.com.caelum.vraptor.html.tags.interfaces.Tag;
 import br.com.caelum.vraptor.html.transformers.DefaultTagTransformer;
 import br.com.caelum.vraptor.html.transformers.TagTransformer;
 import br.com.caelum.vraptor.proxy.DefaultProxifier;
@@ -21,33 +18,28 @@ import br.com.caelum.vraptor.proxy.MethodInvocation;
 import br.com.caelum.vraptor.proxy.Proxifier;
 import br.com.caelum.vraptor.proxy.SuperMethod;
 
-public class FormFor implements Tag {
+public class FormFor implements NestedElement {
 
 	private final List<NestedElement> children;
 	private final java.lang.Object resource;
-	private final Attributes attributes;
 	private final TagTransformer tagTransformer = new DefaultTagTransformer();
 
 	private final static ThreadLocal<List<NestedElement>> childrenToGo = new ThreadLocal<List<NestedElement>>();
 	private final static Proxifier proxifier = new DefaultProxifier();
 
-	public FormFor(java.lang.Object resource, Attributes attributes) {
+	public FormFor(java.lang.Object resource) {
 		this.resource = resource;
-		this.attributes = attributes;
 		this.children = getChildrenToGo();
 		childrenToGo.remove();
 	}
 
 	public String toHtml() {
-		return tagTransformer.transform(this, "form");
+		// TODO implement
+		return "";
 	}
 
 	public NestedElement[] getChildren() {
 		return children.toArray(new NestedElement[children.size()]);
-	}
-
-	public Attributes getAttributes() {
-		return attributes;
 	}
 
 	private static List<NestedElement> getChildrenToGo() {
@@ -99,9 +91,9 @@ public class FormFor implements Tag {
 				Elements elements = new Elements();
 				elements.append(text(inputName));
 				if (defaultValue != null) {
-					elements.append(input(attrs(type("text"), name(inputName), value(defaultValue.toString()))));
+					elements.append(input(type("text"), name(inputName), value(defaultValue.toString())));
 				} else {
-					elements.append(input(attrs(type("text"), name(inputName))));
+					elements.append(input(type("text"), name(inputName)));
 				}
 				return elements;
 			}

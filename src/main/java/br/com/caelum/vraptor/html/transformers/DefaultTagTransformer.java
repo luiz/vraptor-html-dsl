@@ -2,7 +2,6 @@ package br.com.caelum.vraptor.html.transformers;
 
 import static java.lang.String.format;
 import br.com.caelum.vraptor.html.attributes.Attribute;
-import br.com.caelum.vraptor.html.attributes.Attributes;
 import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
 import br.com.caelum.vraptor.html.tags.interfaces.Tag;
 
@@ -24,9 +23,9 @@ public class DefaultTagTransformer implements TagTransformer {
 		return transform(tag, tagName);
 	}
 
-	private String transformToHtml(Attributes attributes) {
+	private String transformToHtml(Attribute... attributes) {
 		StringBuilder sb = new StringBuilder();
-		for (Attribute attribute : attributes.array()) {
+		for (Attribute attribute : attributes) {
 			sb.append(' ');
 			sb.append(transformToHtml(attribute));
 		}

@@ -1,6 +1,6 @@
 package br.com.caelum.vraptor.html;
 
-import br.com.caelum.vraptor.html.tags.Html;
+import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
 import br.com.caelum.vraptor.ioc.Component;
 
 /**
@@ -24,7 +24,7 @@ public class PageProcessor {
 	 * @return A String containing the corresponding HTML
 	 */
 	public String process(Page page) {
-		Html rootTag = page.render();
+		NestedElement rootTag = page.render();
 		return rootTag.toHtml();
 	}
 }
