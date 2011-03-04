@@ -15,7 +15,7 @@ public class PageProcessor {
 
 	/**
 	 * <p>
-	 * Retrieves the root &lt;html&gt; tag of the given {@link Page} and
+	 * Retrieves the root element of the given {@link Page} and
 	 * requests its translation to HTML
 	 * </p>
 	 *

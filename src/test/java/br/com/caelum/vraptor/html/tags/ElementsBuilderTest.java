@@ -11,6 +11,7 @@ import org.junit.Test;
 import br.com.caelum.vraptor.html.tags.builders.Elements;
 import br.com.caelum.vraptor.html.tags.builders.ElementsBuilder;
 import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
+import br.com.caelum.vraptor.html.tags.interfaces.Tag;
 
 public class ElementsBuilderTest {
 
@@ -44,10 +45,20 @@ public class ElementsBuilderTest {
 		ElementsBuilder<Integer> builder = new ElementsBuilder<Integer>(objects);
 		builder.using(new Formatter()).strangeMethod(null, null);
 	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void throwsExceptionWhenTryingToUseAMethodThatReturnsASubclassOfNestedElement() throws Exception {
+		List<Integer> objects = Arrays.asList(1, 2, 3);
+		ElementsBuilder<Integer> builder = new ElementsBuilder<Integer>(objects);
+		builder.using(new Formatter()).formatIntAndReturnTag(null);
+	}
 }
 
 class Formatter {
 	public NestedElement formatInt(Integer n) {
+		return formatIntAndReturnTag(n);
+	}
+	public Tag formatIntAndReturnTag(Integer n) {
 		return p().with(Integer.valueOf(n + 1).toString());
 	}
 	public NestedElement formatString(String str) {

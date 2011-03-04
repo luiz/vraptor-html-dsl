@@ -37,7 +37,7 @@ public class DefaultTagTransformer implements TagTransformer {
 		return format("%s=\"%s\"", attributeName, attribute.getValue());
 	}
 
-	public String transform(Tag tag, String name) {
+	private String transform(Tag tag, String name) {
 		StringBuilder sb = new StringBuilder();
 		sb.append('<');
 		sb.append(name);

@@ -4,8 +4,7 @@ import br.com.caelum.vraptor.html.tags.interfaces.Tag;
 
 /**
  * <p>
- * An interface for classes that transform Tags into HTML in a standard fashion,
- * not taking into account the type of the tag.
+ * An interface for classes that transform Tags into HTML.
  * </p>
  *
  * @author luiz
@@ -14,7 +13,4 @@ import br.com.caelum.vraptor.html.tags.interfaces.Tag;
 public interface TagTransformer {
 
 	public String transform(Tag tag);
-
-	public String transform(Tag tag, String name);
-
 }

@@ -22,6 +22,11 @@ import br.com.caelum.vraptor.proxy.SuperMethod;
  * returned from each invocation to the real method.
  * </p>
  *
+ * <p>
+ * <strong>It's important that the return type of method used to format the
+ * elements is exactly NestedElement</strong>
+ * </p>
+ *
  * @author luiz
  *
  * @param <T>
@@ -30,32 +35,33 @@ import br.com.caelum.vraptor.proxy.SuperMethod;
  */
 public class ElementsBuilder<T> {
 
-	private final class ElementsBuilderFormatterInvoker<X> implements
-			MethodInvocation<X> {
-		private final X page;
+	private final class ElementsBuilderFormatterInvoker<X> implements MethodInvocation<X> {
+		private final X formatterObject;
 
-		private ElementsBuilderFormatterInvoker(X page) {
-			this.page = page;
+		private ElementsBuilderFormatterInvoker(X formatterObject) {
+			this.formatterObject = formatterObject;
 		}
 
-		public java.lang.Object intercept(X proxyPage, Method formatter, java.lang.Object[] args,
-				SuperMethod superMethod) {
+		public java.lang.Object intercept(X proxyFormatterObject, Method formatter, java.lang.Object[] args, SuperMethod superMethod) {
 			verifyPassedMethod(formatter);
 			for (T object : objects) {
-				NestedElement formatted = (NestedElement) new Mirror().on(this.page).invoke().method(formatter).withArgs(object);
+				Object result = new Mirror().on(this.formatterObject).invoke().method(formatter).withArgs(object);
+				NestedElement formatted = (NestedElement) result;
 				elements.append(formatted);
 			}
 			return elements;
 		}
 
 		private void verifyPassedMethod(Method formatter) {
-			checkArgument(NestedElement.class.isAssignableFrom(formatter.getReturnType()),
+			checkArgument(
+					NestedElement.class.equals(formatter.getReturnType()),
 					"The formatting method %s must return a NestedElement",
 					formatter.toGenericString());
 			checkArgument(formatter.getParameterTypes().length == 1,
 					"The formatting method %s must receive only one argument",
 					formatter.toGenericString());
-			checkArgument(formatter.getParameterTypes()[0].equals(objects.get(0).getClass()),
+			checkArgument(
+					formatter.getParameterTypes()[0].equals(objects.get(0).getClass()),
 					"The formatting method %s must receive one argument of type %s",
 					formatter.toGenericString(), objects.get(0).getClass().getName());
 		}

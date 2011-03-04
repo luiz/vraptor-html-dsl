@@ -17,6 +17,7 @@ import br.com.caelum.vraptor.html.Page;
 import br.com.caelum.vraptor.html.Url;
 import br.com.caelum.vraptor.html.example.ExampleController;
 import br.com.caelum.vraptor.html.tags.builders.Elements;
+import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
 import br.com.caelum.vraptor.html.tags.interfaces.Tag;
 
 public class ListPage implements Page {
@@ -30,14 +31,14 @@ public class ListPage implements Page {
 	public Tag render() {
 		return html().with(
 				body().with(
-						p().with("You can construct the list by creating an Elements object:"),
-						ol().with(
-							cars()
-						),
-						p().with("Or you can use the \"magic\" Elements.format method:"),
-						ol().with(
-						  format(cars).using(this).tagFor(null)
-						)
+					p().with("You can construct the list by creating an Elements object:"),
+					ol().with(
+						cars()
+					),
+					p().with("Or you can use the \"magic\" Elements.format method:"),
+					ol().with(
+					  format(cars).using(this).tagFor(null)
+					)
 				)
 			);
 	}
@@ -50,7 +51,7 @@ public class ListPage implements Page {
 		return tags;
 	}
 
-	public Tag tagFor(String car) {
+	public NestedElement tagFor(String car) {
 		Url linkToCar = url(); to(ExampleController.class).show(car);
 		return li().with(
 					a(href(linkToCar)).with(car)

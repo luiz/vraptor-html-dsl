@@ -29,7 +29,27 @@ public interface Tag extends NestedElement {
 	 */
 	public Attribute[] getAttributes();
 
-
+	/**
+	 * <p>
+	 * Set the children of this tag.
+	 * </p>
+	 *
+	 * @param children
+	 *            The NestedElements representing the children of this tag
+	 * @return This method should return the object itself, as to allow the
+	 *         following use: <code>html().with(body().with(text("Hi")))</code>
+	 */
 	public Tag with(NestedElement... children);
+
+	/**
+	 * <p>
+	 * Set the text inside this tag
+	 * </p>
+	 *
+	 * @param content
+	 *            The text to be placed inside this tag
+	 * @return This method should return the object itself, as to allow the
+	 *         following use: <code>html().with(body().with("Hi"))</code>
+	 */
 	public Tag with(String content);
 }
