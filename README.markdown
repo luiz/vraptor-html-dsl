@@ -35,7 +35,6 @@ The `Elements` object is like a collection: you can put other elements inside
 it (using the `append` method). Thus, to create a HTML list based on a Java
 collection, you can do the following:
 
-`
 	Collection<String> items;
 	// fill the collection
 	Tag itemsInHTML = ul(convertToHTML(items));
@@ -47,12 +46,10 @@ collection, you can do the following:
 		}
 		return elements;
 	}
-`
 
 This is a little uncomfortable, isn't it? Well, if you agree with me, there is
 another way, much less verbose, using the `Elements.format` static method:
 
-`
 	Collection<String> items;
 	// fill the collection
 	Tag itemsInHTML = ul(format(items).using(this).formatItem(null));
@@ -60,7 +57,6 @@ another way, much less verbose, using the `Elements.format` static method:
 	NestedElement formatItem(String item) {
 		return li("We have the item " + item);
 	}
-`
 
 Pretty much less verbose, isn't it? You can call `format` with any `Iterable`.
 Then you call the method `using` to tell the library which method you want it
@@ -94,15 +90,14 @@ Using it
 ========
 
 1.	Put vraptor-html-dsl-1.0.jar in your `WEB-INF/lib` folder. You can get a
-		copy from the example project (in the folder
-		`example/WebContent/WEB-INF/lib`).
+	copy from the example project (in the folder
+	`example/WebContent/WEB-INF/lib`).
 2.	Create a class to represent your page: make it implement the
-		`br.com.caelum.vraptor.html.Page` interface. Take a look at IndexPage and
-		ListPage in the example project.
+	`br.com.caelum.vraptor.html.Page` interface. Take a look at IndexPage and
+	ListPage in the example project.
 3.	In your controller, request a PageProcessor in the constructor and make the
-		result of your method be the result of the processing of your Page object,
-		like this: `result.use(http()).body(pageProcessor.process(new
-		ListPage(cars)));`
+	result of your method be the result of the processing of your Page object,
+	like this: `result.use(http()).body(pageProcessor.process(new ListPage(cars)));`
 
 That's it!
 
