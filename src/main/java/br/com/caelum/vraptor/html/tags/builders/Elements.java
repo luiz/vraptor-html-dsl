@@ -39,11 +39,11 @@ public class Elements implements NestedElement {
 	 * @param <T>
 	 *            Type of the objects to be transformed into HTML elements
 	 * @param objects
-	 *            List of objects to be transformed into HTML elements
+	 *            Iterable of objects to be transformed into HTML elements
 	 * @return A fresh new instance of a {@link ElementsBuilder} for the given
 	 *         object list
 	 */
-	public static <T> ElementsBuilder<T> format(List<T> objects) {
+	public static <T> ElementsBuilder<T> format(Iterable<T> objects) {
 		return new ElementsBuilder<T>(objects);
 	}
 

@@ -4,6 +4,7 @@ import static br.com.caelum.vraptor.html.factories.PageTagFactory.p;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
@@ -51,6 +52,13 @@ public class ElementsBuilderTest {
 		List<Integer> objects = Arrays.asList(1, 2, 3);
 		ElementsBuilder<Integer> builder = new ElementsBuilder<Integer>(objects);
 		builder.using(new Formatter()).formatIntAndReturnTag(null);
+	}
+
+	@Test
+	public void doesNotCrashWhenFormattingAnEmptyList() throws Exception {
+		List<Integer> objects = Collections.emptyList();
+		ElementsBuilder<Integer> builder = new ElementsBuilder<Integer>(objects);
+		builder.using(new Formatter()).formatInt(null);
 	}
 }
 

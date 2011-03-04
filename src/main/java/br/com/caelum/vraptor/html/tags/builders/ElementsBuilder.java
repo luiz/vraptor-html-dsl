@@ -3,7 +3,7 @@ package br.com.caelum.vraptor.html.tags.builders;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import java.lang.reflect.Method;
-import java.util.List;
+import java.util.Iterator;
 
 import net.vidageek.mirror.dsl.Mirror;
 import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
@@ -60,17 +60,21 @@ public class ElementsBuilder<T> {
 			checkArgument(formatter.getParameterTypes().length == 1,
 					"The formatting method %s must receive only one argument",
 					formatter.toGenericString());
-			checkArgument(
-					formatter.getParameterTypes()[0].equals(objects.get(0).getClass()),
-					"The formatting method %s must receive one argument of type %s",
-					formatter.toGenericString(), objects.get(0).getClass().getName());
+			Iterator<T> iterator = objects.iterator();
+			if (iterator.hasNext()) {
+				Class<? extends Object> desiredParameterClass = iterator.next().getClass();
+				checkArgument(
+						formatter.getParameterTypes()[0].equals(desiredParameterClass),
+						"The formatting method %s must receive one argument of type %s",
+						formatter.toGenericString(), desiredParameterClass.getName());
+			}
 		}
 	}
 
-	private final List<T> objects;
+	private final Iterable<T> objects;
 	private final Elements elements;
 
-	public ElementsBuilder(List<T> objects) {
+	public ElementsBuilder(Iterable<T> objects) {
 		this.objects = objects;
 		this.elements = new Elements();
 	}
