@@ -61,4 +61,8 @@ public class PageAttributeFactory {
 	public static Id id(String value) {
 		return new Id(value);
 	}
+
+	public static br.com.caelum.vraptor.html.attributes.Class clazz(String value) {
+		return new br.com.caelum.vraptor.html.attributes.Class(value);
+	}
 }

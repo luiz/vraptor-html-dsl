@@ -2,13 +2,16 @@ package br.com.caelum.vraptor.html.example.page;
 
 import static br.com.caelum.vraptor.html.UrlFactory.to;
 import static br.com.caelum.vraptor.html.UrlFactory.url;
+import static br.com.caelum.vraptor.html.factories.PageAttributeFactory.clazz;
 import static br.com.caelum.vraptor.html.factories.PageAttributeFactory.href;
 import static br.com.caelum.vraptor.html.factories.PageTagFactory.a;
 import static br.com.caelum.vraptor.html.factories.PageTagFactory.body;
-import static br.com.caelum.vraptor.html.factories.PageTagFactory.html;
 import static br.com.caelum.vraptor.html.factories.PageTagFactory.li;
 import static br.com.caelum.vraptor.html.factories.PageTagFactory.ol;
 import static br.com.caelum.vraptor.html.factories.PageTagFactory.p;
+import static br.com.caelum.vraptor.html.factories.PageTagFactory.table;
+import static br.com.caelum.vraptor.html.factories.PageTagFactory.td;
+import static br.com.caelum.vraptor.html.factories.PageTagFactory.tr;
 import static br.com.caelum.vraptor.html.tags.builders.Elements.format;
 
 import java.util.List;
@@ -29,8 +32,7 @@ public class ListPage implements Page {
 	}
 
 	public Tag render() {
-		return html().with(
-				body().with(
+		return body().with(
 					p().with("You can construct the list by creating an Elements object:"),
 					ol().with(
 						cars()
@@ -38,9 +40,12 @@ public class ListPage implements Page {
 					p().with("Or you can use the \"magic\" Elements.format method:"),
 					ol().with(
 					  format(cars).using(this).tagFor(null)
+					),
+					p().with("You can also use a method that receives an index, so that you can do a zebra list, like this:"),
+					table().with(
+					  format(cars).using(this).tagFor(null, 0)
 					)
-				)
-			);
+				);
 	}
 
 	private Elements cars() {
@@ -49,6 +54,15 @@ public class ListPage implements Page {
 			tags.append(tagFor(car));
 		}
 		return tags;
+	}
+
+	public NestedElement tagFor(String car, int i) {
+		Url linkToCar = url(); to(ExampleController.class).show(car);
+		String parity = i % 2 == 0 ? "odd" : "even";
+		return tr(clazz(parity)).with(
+					td().with(car),
+					td().with(a(href(linkToCar)).with("Show"))
+				);
 	}
 
 	public NestedElement tagFor(String car) {
