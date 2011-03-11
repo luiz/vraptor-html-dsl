@@ -44,12 +44,30 @@ public class ElementsBuilder<T> {
 
 		public java.lang.Object intercept(X proxyFormatterObject, Method formatter, java.lang.Object[] args, SuperMethod superMethod) {
 			verifyPassedMethod(formatter);
+			int numberOfArguments = formatter.getParameterTypes().length;
+			if (numberOfArguments == 1) {
+				iterateCallingFormatterWithOneArgument(formatter);
+			} else {
+				iterateCallingFormatterWithIndex(formatter);
+			}
+			return elements;
+		}
+
+		private void iterateCallingFormatterWithIndex(Method formatter) {
+			int i = 0;
+			for (T object : objects) {
+				Object result = new Mirror().on(this.formatterObject).invoke().method(formatter).withArgs(object, i++);
+				NestedElement formatted = (NestedElement) result;
+				elements.append(formatted);
+			}
+		}
+
+		private void iterateCallingFormatterWithOneArgument(Method formatter) {
 			for (T object : objects) {
 				Object result = new Mirror().on(this.formatterObject).invoke().method(formatter).withArgs(object);
 				NestedElement formatted = (NestedElement) result;
 				elements.append(formatted);
 			}
-			return elements;
 		}
 
 		private void verifyPassedMethod(Method formatter) {
@@ -57,9 +75,17 @@ public class ElementsBuilder<T> {
 					NestedElement.class.equals(formatter.getReturnType()),
 					"The formatting method %s must return a NestedElement",
 					formatter.toGenericString());
-			checkArgument(formatter.getParameterTypes().length == 1,
-					"The formatting method %s must receive only one argument",
+			int numberOfArguments = formatter.getParameterTypes().length;
+			checkArgument(numberOfArguments == 1 || numberOfArguments == 2,
+					"The formatting method %s must receive only one or two arguments",
 					formatter.toGenericString());
+			if (numberOfArguments == 2) {
+				Class<?> secondArgumentClass = formatter.getParameterTypes()[1];
+				checkArgument(Number.class.isAssignableFrom(secondArgumentClass) ||
+						int.class.equals(secondArgumentClass) ||
+						long.class.equals(secondArgumentClass),
+						"The second argument of the formatting method %s must be a Number", formatter.toGenericString());
+			}
 			Iterator<T> iterator = objects.iterator();
 			if (iterator.hasNext()) {
 				Class<? extends Object> desiredParameterClass = iterator.next().getClass();

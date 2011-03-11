@@ -44,7 +44,7 @@ public class ElementsBuilderTest {
 	public void throwsExceptionWhenTryingToUseAMethodThatReceivesManyArguments() throws Exception {
 		List<Integer> objects = Arrays.asList(1, 2, 3);
 		ElementsBuilder<Integer> builder = new ElementsBuilder<Integer>(objects);
-		builder.using(new Formatter()).strangeMethod(null, null);
+		builder.using(new Formatter()).strangeMethod(null, null, null);
 	}
 
 	@Test(expected=IllegalArgumentException.class)
@@ -67,6 +67,23 @@ public class ElementsBuilderTest {
 		ElementsBuilder<Integer> builder = new ElementsBuilder<Integer>(objects);
 		builder.using(new ProblematicFormatter(42)).formatIntAndReturnTag(null);
 	}
+
+	@Test
+	public void invokesFormatterMethodWithIndexAndReturnsAnElementsWithTheReturnsOfFormatterMethod() throws Exception {
+		List<String> objects = Arrays.asList("1", "2", "3");
+		ElementsBuilder<String> builder = new ElementsBuilder<String>(objects);
+		NestedElement result = builder.using(new Formatter()).formatWithIndex(null, 0);
+		assertEquals(Elements.class, result.getClass());
+		Elements elements = (Elements) result;
+		assertEquals("<p>10</p><p>21</p><p>32</p>", elements.toHtml());
+	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void throwsExceptionWhenTryingToUseAMethodThatDoesNotReceiveANumberAsIndexArgument() throws Exception {
+		List<String> objects = Arrays.asList("1", "2", "3");
+		ElementsBuilder<String> builder = new ElementsBuilder<String>(objects);
+		builder.using(new Formatter()).formatWithStrangeIndex(null, null);
+	}
 }
 
 class Formatter {
@@ -79,8 +96,14 @@ class Formatter {
 	public NestedElement formatString(String str) {
 		return p().with(str);
 	}
+	public NestedElement formatWithIndex(String str, int index) {
+		return p().with(str + index);
+	}
+	public NestedElement formatWithStrangeIndex(String str, String stringIsNotIndex) {
+		return p().with(str + stringIsNotIndex);
+	}
 	public void strangeMethod(Integer n) {}
-	public NestedElement strangeMethod(Integer n, Integer m) {
+	public NestedElement strangeMethod(Integer n, Integer m, Integer problem) {
 		return null;
 	}
 }
