@@ -60,6 +60,13 @@ public class ElementsBuilderTest {
 		ElementsBuilder<Integer> builder = new ElementsBuilder<Integer>(objects);
 		builder.using(new Formatter()).formatInt(null);
 	}
+
+	@Test
+	public void doesNotCrashWhenUsingAFormatterThatCallsMethodsOnItsConstructorParameters() throws Exception {
+		List<Integer> objects = Arrays.asList(1, 2, 3);
+		ElementsBuilder<Integer> builder = new ElementsBuilder<Integer>(objects);
+		builder.using(new ProblematicFormatter(42)).formatIntAndReturnTag(null);
+	}
 }
 
 class Formatter {
@@ -75,5 +82,17 @@ class Formatter {
 	public void strangeMethod(Integer n) {}
 	public NestedElement strangeMethod(Integer n, Integer m) {
 		return null;
+	}
+}
+
+class ProblematicFormatter {
+	private final String myNumber;
+
+	public ProblematicFormatter(Integer number) {
+		this.myNumber = number.toString();
+	}
+
+	public NestedElement formatIntAndReturnTag(Integer toFormat) {
+		return p().with(myNumber + ": " + toFormat);
 	}
 }

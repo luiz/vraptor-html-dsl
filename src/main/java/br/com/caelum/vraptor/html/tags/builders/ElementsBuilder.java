@@ -7,8 +7,8 @@ import java.util.Iterator;
 
 import net.vidageek.mirror.dsl.Mirror;
 import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
-import br.com.caelum.vraptor.proxy.DefaultProxifier;
 import br.com.caelum.vraptor.proxy.MethodInvocation;
+import br.com.caelum.vraptor.proxy.ObjenesisProxifier;
 import br.com.caelum.vraptor.proxy.SuperMethod;
 
 /**
@@ -92,10 +92,10 @@ public class ElementsBuilder<T> {
 	 *            The object which contains the formatter method
 	 * @return A proxy of the same class as the given object
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public <X> X using(X formatter) {
-		MethodInvocation<X> formatterInvoker = new ElementsBuilderFormatterInvoker<X>(formatter);
-		return (X) new DefaultProxifier().proxify(formatter.getClass(), formatterInvoker);
+		MethodInvocation formatterInvoker = new ElementsBuilderFormatterInvoker(formatter);
+		return (X) new ObjenesisProxifier().proxify(formatter.getClass(), formatterInvoker);
 	}
 
 }
