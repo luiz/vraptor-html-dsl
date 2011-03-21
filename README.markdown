@@ -95,10 +95,9 @@ Using it
 2.	Create a class to represent your page: make it implement the
 	`br.com.caelum.vraptor.html.Page` interface. Take a look at IndexPage and
 	ListPage in the example project.
-3.	In your controller, request a PageProcessor in the constructor and make the
-	result of your method be the result of the processing of your Page object,
-	like this: `result.use(http()).body(pageProcessor.process(new ListPage(cars)));`
-
+3.	In your controller, create an instance of your page and return it from your
+	method, or tell the VRaptor's `Result` to use it as the output:
+		`result.use(html()).page(new YourPage())`
 That's it!
 
 How to write a page

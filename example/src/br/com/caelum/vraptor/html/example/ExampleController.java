@@ -16,13 +16,15 @@
  */
 package br.com.caelum.vraptor.html.example;
 
+import static br.com.caelum.vraptor.html.VRaptorHTMLDSLView.html;
+
 import java.util.Arrays;
 import java.util.List;
 
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.html.PageProcessor;
+import br.com.caelum.vraptor.html.Page;
 import br.com.caelum.vraptor.html.example.page.DecoratorPage;
 import br.com.caelum.vraptor.html.example.page.IndexPage;
 import br.com.caelum.vraptor.html.example.page.ListPage;
@@ -32,22 +34,20 @@ import br.com.caelum.vraptor.view.Results;
 public class ExampleController {
 
 	private final Result result;
-	private final PageProcessor pageProcessor;
 
-	public ExampleController(Result result, PageProcessor pageProcessor) {
+	public ExampleController(Result result) {
 		this.result = result;
-		this.pageProcessor = pageProcessor;
 	}
 
 	@Path("/")
 	public void index() {
-		result.use(Results.http()).body(pageProcessor.process(new DecoratorPage(new IndexPage())));
+		result.use(html()).page(new DecoratorPage(new IndexPage()));
 	}
 
 	@Path("/cars")
-	public void listing() {
+	public Page listing() {
 		List<String> cars = Arrays.asList("GM", "Ford", "VW");
-		result.use(Results.http()).body(pageProcessor.process(new DecoratorPage(new ListPage(cars))));
+		return new DecoratorPage(new ListPage(cars));
 	}
 
 	@Path("/complex/route/to/page2")
