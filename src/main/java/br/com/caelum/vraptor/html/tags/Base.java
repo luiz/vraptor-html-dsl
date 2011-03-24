@@ -32,7 +32,11 @@ public class Base implements Tag {
 		return this;
 	}
 
-	public Tag with(String content) {
-		return with(new Text(content));
+	public Tag with(java.lang.Object content) {
+		return this;
+	}
+
+	public Tag with(NestedElement child) {
+		return this;
 	}
 }

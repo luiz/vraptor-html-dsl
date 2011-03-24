@@ -14,61 +14,64 @@ import static br.com.caelum.vraptor.html.factories.PageTagFactory.td;
 import static br.com.caelum.vraptor.html.factories.PageTagFactory.tr;
 import static br.com.caelum.vraptor.html.tags.builders.Elements.format;
 
-import java.util.List;
+import java.util.Collection;
 
 import br.com.caelum.vraptor.html.Page;
 import br.com.caelum.vraptor.html.Url;
 import br.com.caelum.vraptor.html.example.ExampleController;
+import br.com.caelum.vraptor.html.example.Person;
 import br.com.caelum.vraptor.html.tags.builders.Elements;
 import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
 import br.com.caelum.vraptor.html.tags.interfaces.Tag;
 
 public class ListPage implements Page {
 
-	private final List<String> cars;
+	private final Collection<Person> people;
 
-	public ListPage(List<String> cars) {
-		this.cars = cars;
+	public ListPage(Collection<Person> people) {
+		this.people = people;
 	}
 
 	public Tag render() {
 		return body().with(
 					p().with("You can construct the list by creating an Elements object:"),
 					ol().with(
-						cars()
+						peopleAsHtml()
 					),
 					p().with("Or you can use the \"magic\" Elements.format method:"),
 					ol().with(
-					  format(cars).using(this).tagFor(null)
+					  format(people).using(this).tagFor(null)
 					),
 					p().with("You can also use a method that receives an index, so that you can do a zebra list, like this:"),
 					table().with(
-					  format(cars).using(this).tagFor(null, 0)
+					  format(people).using(this).tagFor(null, 0)
 					)
 				);
 	}
 
-	private Elements cars() {
+	private Elements peopleAsHtml() {
 		Elements tags = new Elements();
-		for (String car : cars) {
-			tags.append(tagFor(car));
+		for (Person person : people) {
+			tags.append(tagFor(person));
 		}
 		return tags;
 	}
 
-	public NestedElement tagFor(String car, int i) {
-		Url linkToCar = url(); to(ExampleController.class).show(car);
+	public NestedElement tagFor(Person person, int i) {
+		Url linkToPerson = url(); to(ExampleController.class).show(person.getName());
 		String parity = i % 2 == 0 ? "odd" : "even";
 		return tr(clazz(parity)).with(
-					td().with(car),
-					td().with(a(href(linkToCar)).with("Show"))
+					td().with(person.getName()),
+					td().with(person.getSex()),
+					td().with(person.getFormattedBirthDate()),
+					td().with(a(href(linkToPerson)).with("Show"))
 				);
 	}
 
-	public NestedElement tagFor(String car) {
-		Url linkToCar = url(); to(ExampleController.class).show(car);
+	public NestedElement tagFor(Person person) {
+		Url linkToPerson = url(); to(ExampleController.class).show(person.getName());
 		return li().with(
-					a(href(linkToCar)).with(car)
+					a(href(linkToPerson)).with(person.getName())
 				);
 	}
 

@@ -13,7 +13,6 @@ import static br.com.caelum.vraptor.html.factories.PageTagFactory.text;
 import br.com.caelum.vraptor.html.Page;
 import br.com.caelum.vraptor.html.Url;
 import br.com.caelum.vraptor.html.example.ExampleController;
-import br.com.caelum.vraptor.html.example.Person;
 import br.com.caelum.vraptor.html.tags.interfaces.Tag;
 
 public class IndexPage implements Page {
@@ -24,7 +23,6 @@ public class IndexPage implements Page {
 		Url dontClick = url(to(ExampleController.class).test());
 		Url google = url("http://google.com");
 
-		Person person = new Person();
 		return body().with(
 					image("/images/vraptor-logo.png", "VRaptor Logo"),
 					p().with(

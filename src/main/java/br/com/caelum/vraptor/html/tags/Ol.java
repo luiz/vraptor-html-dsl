@@ -32,7 +32,12 @@ public class Ol implements Tag {
 		return this;
 	}
 
-	public Tag with(String content) {
+	public Tag with(java.lang.Object content) {
 		return with(new Text(content));
+	}
+
+	public Tag with(NestedElement child) {
+		this.children = new NestedElement[] { child };
+		return this;
 	}
 }

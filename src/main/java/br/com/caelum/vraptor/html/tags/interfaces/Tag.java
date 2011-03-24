@@ -31,6 +31,20 @@ public interface Tag extends NestedElement {
 
 	/**
 	 * <p>
+	 * Set the unique child of this tag. This method exists for sole purpose of
+	 * helping Java to decide which version of this method should be called when
+	 * creating a tag with a single child.
+	 * </p>
+	 *
+	 * @param children
+	 *            The NestedElement representing the child of this tag
+	 * @return This method should return the object itself, as to allow the
+	 *         following use: <code>html().with(body().with(text("Hi")))</code>
+	 */
+	public Tag with(NestedElement child);
+
+	/**
+	 * <p>
 	 * Set the children of this tag.
 	 * </p>
 	 *
@@ -43,7 +57,8 @@ public interface Tag extends NestedElement {
 
 	/**
 	 * <p>
-	 * Set the text inside this tag
+	 * Set the text inside this tag, calling {@link Object#toString()} on the
+	 * argument and using the result as the content
 	 * </p>
 	 *
 	 * @param content
@@ -51,5 +66,5 @@ public interface Tag extends NestedElement {
 	 * @return This method should return the object itself, as to allow the
 	 *         following use: <code>html().with(body().with("Hi"))</code>
 	 */
-	public Tag with(String content);
+	public Tag with(java.lang.Object content);
 }

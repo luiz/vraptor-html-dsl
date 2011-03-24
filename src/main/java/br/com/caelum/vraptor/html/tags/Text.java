@@ -12,8 +12,8 @@ import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
 public class Text implements NestedElement {
 	private final String text;
 
-	public Text(String text) {
-		this.text = text;
+	public Text(java.lang.Object toBePrinted) {
+		this.text = toBePrinted.toString();
 	}
 
 	/**

@@ -413,7 +413,7 @@ public class PageTagFactory {
 		return new Td(attributes);
 	}
 
-	public static Text text(String content) {
+	public static Text text(java.lang.Object content) {
 		return new Text(content);
 	}
 

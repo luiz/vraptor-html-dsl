@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.com.caelum</groupId>
 	<artifactId>vraptor-html-dsl</artifactId>
-	<version>1.1.0</version>
+	<version>1.1.1</version>
 	<packaging>jar</packaging>
 	<name>VRaptor HTML DSL</name>
 	<description>Write HTML only using Java. Don't break your URLs anymore!</description>

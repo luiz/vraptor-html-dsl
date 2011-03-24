@@ -18,8 +18,9 @@ package br.com.caelum.vraptor.html.example;
 
 import static br.com.caelum.vraptor.html.VRaptorHTMLDSLView.html;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
@@ -34,9 +35,15 @@ import br.com.caelum.vraptor.view.Results;
 public class ExampleController {
 
 	private final Result result;
+	private final Map<String, Person> people;
 
 	public ExampleController(Result result) {
 		this.result = result;
+		this.people = new HashMap<String, Person>();
+
+		this.people.put("John", new Person("John", new GregorianCalendar(1970, 0, 25), Sex.MALE));
+		this.people.put("Mary", new Person("Mary", new GregorianCalendar(1981, 6, 15), Sex.FEMALE));
+		this.people.put("William", new Person("William", new GregorianCalendar(1990, 9, 2), Sex.MALE));
 	}
 
 	@Path("/")
@@ -44,10 +51,9 @@ public class ExampleController {
 		result.use(html()).page(new DecoratorPage(new IndexPage()));
 	}
 
-	@Path("/cars")
+	@Path("/people")
 	public Page listing() {
-		List<String> cars = Arrays.asList("GM", "Ford", "VW");
-		return new DecoratorPage(new ListPage(cars));
+		return new DecoratorPage(new DecoratorPage(new ListPage(this.people.values())));
 	}
 
 	@Path("/complex/route/to/page2")
@@ -61,9 +67,10 @@ public class ExampleController {
 		return 42;
 	}
 
-	@Path("/cars/{car}")
-	public void show(String car) {
-		result.use(Results.http()).body(car);
+	@Path("/people/{personName}")
+	public void show(String personName) {
+		Person person = this.people.get(personName);
+		result.use(Results.http()).body(person.toString());
 	}
 
 }
