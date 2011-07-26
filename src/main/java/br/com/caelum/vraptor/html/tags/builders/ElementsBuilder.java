@@ -124,4 +124,37 @@ public class ElementsBuilder<T> {
 		return (X) new ObjenesisProxifier().proxify(formatter.getClass(), formatterInvoker);
 	}
 
+	/**
+	 * <p>
+	 * Specifies a method to be called on each element of the collection given
+	 * at construction time that must return a NestedElement representing it.
+	 * Intended to be used like
+	 * <code>builder.using(AnyFormattable.class).format(argToBePassedToEachElement, anotherArg)</code>
+	 * </p>
+	 *
+	 * @param formattable
+	 *            Class of the elements in the list
+	 * @return A proxy of the given class to allow the specification of the
+	 *         method to be called
+	 */
+	public T using(Class<T> formattable) {
+		return new ObjenesisProxifier().proxify(formattable, new MethodInvocation<T>() {
+
+			@Override
+			public Object intercept(T proxy, Method formatterMethod, Object[] args,
+					SuperMethod superMethod) {
+				checkArgument(
+						NestedElement.class.equals(formatterMethod.getReturnType()),
+						"The formatting method %s must return a NestedElement",
+						formatterMethod.toGenericString());
+				for (T object : objects) {
+					Object result = new Mirror().on(object).invoke().method(formatterMethod).withArgs(args);
+					NestedElement formatted = (NestedElement) result;
+					elements.append(formatted);
+				}
+				return elements;
+			}
+		});
+	}
+
 }

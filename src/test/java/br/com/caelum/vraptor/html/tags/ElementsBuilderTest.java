@@ -1,10 +1,12 @@
 package br.com.caelum.vraptor.html.tags;
 
+import static br.com.caelum.vraptor.html.factories.PageAttributeFactory.clazz;
 import static br.com.caelum.vraptor.html.factories.PageTagFactory.p;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Test;
@@ -84,6 +86,36 @@ public class ElementsBuilderTest {
 		ElementsBuilder<String> builder = new ElementsBuilder<String>(objects);
 		builder.using(new Formatter()).formatWithStrangeIndex(null, null);
 	}
+
+	@Test
+	public void formatsListOfObjectsCallingAMethodOnEachOneOfThem() throws Exception {
+		List<IKnowHowToFormatMyself> formattingElements = new LinkedList<IKnowHowToFormatMyself>();
+		formattingElements.add(new IKnowHowToFormatMyself("abc"));
+		formattingElements.add(new IKnowHowToFormatMyself("123"));
+		ElementsBuilder<IKnowHowToFormatMyself> builder = new ElementsBuilder<IKnowHowToFormatMyself>(formattingElements);
+		NestedElement result = builder.using(IKnowHowToFormatMyself.class).formatMe("myClass");
+		assertEquals(Elements.class, result.getClass());
+		Elements elements = (Elements) result;
+		assertEquals("<p class=\"myClass\">abc</p><p class=\"myClass\">123</p>", elements.toHtml());
+	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void throwsExceptionWhenTryingToUseAFormatterMethodThatDoesNotReturnANestedElement() throws Exception {
+		List<IKnowHowToFormatMyself> formattingElements = new LinkedList<IKnowHowToFormatMyself>();
+		formattingElements.add(new IKnowHowToFormatMyself("abc"));
+		formattingElements.add(new IKnowHowToFormatMyself("123"));
+		ElementsBuilder<IKnowHowToFormatMyself> builder = new ElementsBuilder<IKnowHowToFormatMyself>(formattingElements);
+		builder.using(IKnowHowToFormatMyself.class).dontFormatMe();
+	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void throwsExceptionWhenTryingToUseAFormatterMethodThatReturnsASubclassOfNestedElement() throws Exception {
+		List<IKnowHowToFormatMyself> formattingElements = new LinkedList<IKnowHowToFormatMyself>();
+		formattingElements.add(new IKnowHowToFormatMyself("abc"));
+		formattingElements.add(new IKnowHowToFormatMyself("123"));
+		ElementsBuilder<IKnowHowToFormatMyself> builder = new ElementsBuilder<IKnowHowToFormatMyself>(formattingElements);
+		builder.using(IKnowHowToFormatMyself.class).formatMeReturningTag();
+	}
 }
 
 class Formatter {
@@ -117,5 +149,26 @@ class ProblematicFormatter {
 
 	public NestedElement formatIntAndReturnTag(Integer toFormat) {
 		return p().with(myNumber + ": " + toFormat);
+	}
+}
+
+class IKnowHowToFormatMyself {
+
+	private final String value;
+
+	public IKnowHowToFormatMyself(String value) {
+		this.value = value;
+	}
+
+	public Tag formatMeReturningTag() {
+		return p();
+	}
+
+	public NestedElement formatMe(String customClass) {
+		return p(clazz(customClass)).with(value);
+	}
+
+	public String dontFormatMe() {
+		return "";
 	}
 }
