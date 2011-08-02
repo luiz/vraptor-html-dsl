@@ -8,9 +8,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-
-import com.google.common.collect.Sets;
+import javax.servlet.ServletContext;
 
 import br.com.caelum.vraptor.http.MutableRequest;
 import br.com.caelum.vraptor.http.ParameterNameProvider;
@@ -22,6 +20,8 @@ import br.com.caelum.vraptor.ioc.PrototypeScoped;
 import br.com.caelum.vraptor.proxy.MethodInvocation;
 import br.com.caelum.vraptor.proxy.Proxifier;
 import br.com.caelum.vraptor.proxy.SuperMethod;
+
+import com.google.common.collect.Sets;
 
 /**
  * <p>Generates and stores an url to a controller using a proxy of such controller.</p>
@@ -40,14 +40,14 @@ public class VRaptorControllerUrl implements Url {
 	private String url = null;
 	private final Router router;
 	private final Proxifier proxifier;
-	private final HttpServletRequest request;
+	private final ServletContext context;
 	private final ParametersControl parametersControl;
 	private final ParameterNameProvider parameterNameProvider;
 
-	VRaptorControllerUrl(Router router, Proxifier proxifier, HttpServletRequest request, ParametersControl parametersControl, ParameterNameProvider parameterNameProvider) {
+	VRaptorControllerUrl(Router router, Proxifier proxifier, ServletContext context, ParametersControl parametersControl, ParameterNameProvider parameterNameProvider) {
 		this.router = router;
 		this.proxifier = proxifier;
-		this.request = request;
+		this.context = context;
 		this.parametersControl = parametersControl;
 		this.parameterNameProvider = parameterNameProvider;
 	}
@@ -75,7 +75,7 @@ public class VRaptorControllerUrl implements Url {
 
 			public Object intercept(T proxyController, Method method, Object[] args, SuperMethod superMethod) {
 				String vraptorPath = router.urlFor(controller, method, args);
-				url = request.getContextPath() + vraptorPath;
+				url = context.getContextPath() + vraptorPath;
 				Map<String, String> pathParameters = getPathParameters(vraptorPath);
 				Map<String, Object> unusedParameters = findUnusedParameters(pathParameters, method, args);
 				StringBuilder extraParams = new StringBuilder("?");
@@ -109,7 +109,7 @@ public class VRaptorControllerUrl implements Url {
 
 			@SuppressWarnings("unchecked")
 			private Map<String, String> getPathParameters(String vraptorPath) {
-				MutableRequest mockRequest = new VRaptorRequest(request);
+				MutableRequest mockRequest = new VRaptorRequest(null);
 				parametersControl.fillIntoRequest(vraptorPath, mockRequest);
 				return mockRequest.getParameterMap();
 			}
