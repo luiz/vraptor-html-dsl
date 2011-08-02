@@ -1,16 +1,23 @@
 package br.com.caelum.vraptor.html;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.stubbing.Answer;
 
 import br.com.caelum.vraptor.http.MutableRequest;
 import br.com.caelum.vraptor.http.ParameterNameProvider;
@@ -24,7 +31,7 @@ public class VRaptorControllerUrlTest {
 	private static final String CONTEXT = "/context";
 
 	private @Mock Router router;
-	private @Mock MutableRequest request;
+	private @Mock ServletContext context;
 	private @Mock ParametersControl parametersControl;
 	private @Mock ParameterNameProvider parameterNameProvider;
 
@@ -34,8 +41,8 @@ public class VRaptorControllerUrlTest {
 	@Before
 	public void setUp() throws Exception {
 		proxifier = new DefaultProxifier();
-		when(request.getContextPath()).thenReturn(CONTEXT);
-		link = new VRaptorControllerUrl(router, proxifier, request, parametersControl, parameterNameProvider);
+		when(context.getContextPath()).thenReturn(CONTEXT);
+		link = new VRaptorControllerUrl(router, proxifier, context, parametersControl, parameterNameProvider);
 	}
 
 	@Test
@@ -55,10 +62,16 @@ public class VRaptorControllerUrlTest {
 	public void generatesLinkForAControllerMethodWithArgs() throws Exception {
 		Class<MyController> controller = MyController.class;
 		Object[] args = { "other" };
-
-		Map<String, String> pathParameters = new HashMap<String, String>();
+		final Map<String, String> pathParameters = new HashMap<String, String>();
 		pathParameters.put("method", "other");
-		when(request.getParameterMap()).thenReturn(pathParameters);
+
+		doAnswer(new Answer<Void>() {
+			public Void answer(InvocationOnMock invocation) throws Throwable {
+				MutableRequest mockRequest = (MutableRequest) invocation.getArguments()[1];
+				when(mockRequest.getParameterMap()).thenReturn(pathParameters);
+				return null;
+			}
+		}).when(parametersControl).fillIntoRequest(eq("/path/to/other"), any(MutableRequest.class));
 		when(router.urlFor(controller, MyController.OTHER_METHOD, args)).thenReturn("/path/to/other");
 		when(parameterNameProvider.parameterNamesFor(MyController.OTHER_METHOD)).thenReturn(new String[] { "method" });
 
@@ -69,7 +82,7 @@ public class VRaptorControllerUrlTest {
 
 	@Test(expected=NullPointerException.class)
 	public void throwsExceptionWhenTryingToRetrieveUrlWithoutSavingTheLink() throws Exception {
-		VRaptorControllerUrl link = new VRaptorControllerUrl(router, proxifier, request, null, null);
+		VRaptorControllerUrl link = new VRaptorControllerUrl(router, proxifier, context, null, null);
 		link.value();
 	}
 	

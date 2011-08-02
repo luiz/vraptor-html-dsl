@@ -1,6 +1,7 @@
 package br.com.caelum.vraptor.html;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.mockito.Mockito.mock;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -109,7 +110,7 @@ public class VRaptorControllerUrl implements Url {
 
 			@SuppressWarnings("unchecked")
 			private Map<String, String> getPathParameters(String vraptorPath) {
-				MutableRequest mockRequest = new VRaptorRequest(null);
+				MutableRequest mockRequest = new VRaptorRequest(mock(MutableRequest.class));
 				parametersControl.fillIntoRequest(vraptorPath, mockRequest);
 				return mockRequest.getParameterMap();
 			}
