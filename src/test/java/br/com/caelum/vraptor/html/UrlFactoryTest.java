@@ -27,7 +27,7 @@ public class UrlFactoryTest {
 	@Before
 	public void setUp() throws Exception {
 		proxifier = new DefaultProxifier();
-		link = new VRaptorControllerUrl(router, proxifier, request);
+		link = new VRaptorControllerUrl(router, proxifier, request, null, null);
 
 		when(request.getContextPath()).thenReturn(CONTEXT_PATH);
 
@@ -54,9 +54,9 @@ public class UrlFactoryTest {
 
 	@Test
 	public void makesManyUrls() throws Exception {
-		VRaptorControllerUrl nonVoidLink = new VRaptorControllerUrl(router, proxifier, request);
-		VRaptorControllerUrl otherLink = new VRaptorControllerUrl(router, proxifier, request);
-		VRaptorControllerUrl otherNonVoidLink = new VRaptorControllerUrl(router, proxifier, request);
+		VRaptorControllerUrl nonVoidLink = new VRaptorControllerUrl(router, proxifier, request, null, null);
+		VRaptorControllerUrl otherLink = new VRaptorControllerUrl(router, proxifier, request, null, null);
+		VRaptorControllerUrl otherNonVoidLink = new VRaptorControllerUrl(router, proxifier, request, null, null);
 		when(container.instanceFor(VRaptorControllerUrl.class)).thenReturn(link, nonVoidLink, otherNonVoidLink, otherLink);
 
 		when(router.urlFor(MyController.class, MyController.MY_METHOD, new Object[] {})).thenReturn("/path/to/method");
