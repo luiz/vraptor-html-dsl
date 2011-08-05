@@ -1,6 +1,9 @@
 package br.com.caelum.vraptor.html;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
@@ -126,5 +129,25 @@ public class VRaptorControllerUrlTest {
 		link.saveUrlTo(controller).objectParamNotOnPath(myModel);
 
 		assertEquals(CONTEXT + "/path/to/objectParam?model.name=myName&model.date=25/05/1987", link.value());
+	}
+
+	@Test
+	public void generatesLinkWithComplexObjectGetParameters() throws Exception {
+		Class<MyController> controller = MyController.class;
+		MyModel myFirstModel = new MyModel("myName", new GregorianCalendar(1987, 4, 25));
+		MyModel mySecondtModel = new MyModel("yourName", new GregorianCalendar(1981, 8, 3));
+		MyComplexModel myComplexModel = new MyComplexModel(myFirstModel, mySecondtModel);
+		Object[] args = { myComplexModel };
+
+		when(router.urlFor(controller, MyController.COMPLEX_OBJECT_PARAM_NOT_ON_PATH_METHOD, args)).thenReturn("/path/to/complexObjectParam");
+		when(parameterNameProvider.parameterNamesFor(MyController.COMPLEX_OBJECT_PARAM_NOT_ON_PATH_METHOD)).thenReturn(new String[] { "model" });
+
+		link.saveUrlTo(controller).complexObjectParamNotOnPath(myComplexModel);
+
+		assertThat(link.value(), startsWith(CONTEXT + "/path/to/complexObjectParam?"));
+		assertThat(link.value(), containsString("model.models[0].name=myName"));
+		assertThat(link.value(), containsString("model.models[0].date=25/05/1987"));
+		assertThat(link.value(), containsString("model.models[1].name=yourName"));
+		assertThat(link.value(), containsString("model.models[1].date=03/09/1981"));
 	}
 }

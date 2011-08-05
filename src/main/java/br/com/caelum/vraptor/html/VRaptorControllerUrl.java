@@ -82,7 +82,7 @@ public class VRaptorControllerUrl implements Url {
 		return proxifier.proxify(controller, new MethodInvocation<T>() {
 
 			public Map<String, Object> convertParameter(String prefix, Object obj) {
-				HashMap<String, Object> map = new HashMap<String, Object>();
+				Map<String, Object> map = new HashMap<String, Object>();
 
 				List<Field> fields = new Mirror().on(obj.getClass()).reflectAll().fields();
 
@@ -93,6 +93,14 @@ public class VRaptorControllerUrl implements Url {
 
 						if ( Calendar.class.isAssignableFrom(fieldValue.getClass())) {
 							fieldValue = new SimpleDateFormat("dd/MM/yyyy").format(((Calendar)fieldValue).getTime());
+						} else if (List.class.isAssignableFrom(fieldValue.getClass())) {
+							int i = 0;
+							List<?> fieldSubValues = (List<?>) fieldValue;
+							for (Object fieldSubValue : fieldSubValues) {
+								map.putAll(convertParameter(prefix + "." + field.getName() + "[" + i + "]", fieldSubValue));
+								i++;
+							}
+							continue;
 						}
 						map.put(prefix+"."+field.getName(), fieldValue);
 					} catch (Exception e) {
