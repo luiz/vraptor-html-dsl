@@ -3,14 +3,20 @@ package br.com.caelum.vraptor.html;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.mockito.Mockito.mock;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
 
+import net.vidageek.mirror.dsl.Mirror;
 import br.com.caelum.vraptor.http.MutableRequest;
 import br.com.caelum.vraptor.http.ParameterNameProvider;
 import br.com.caelum.vraptor.http.VRaptorRequest;
@@ -23,6 +29,7 @@ import br.com.caelum.vraptor.proxy.Proxifier;
 import br.com.caelum.vraptor.proxy.SuperMethod;
 
 import com.google.common.collect.Sets;
+import com.google.common.primitives.Primitives;
 
 /**
  * <p>Generates and stores an url to a controller using a proxy of such controller.</p>
@@ -74,11 +81,50 @@ public class VRaptorControllerUrl implements Url {
 	public <T> T saveUrlTo(final Class<T> controller) {
 		return proxifier.proxify(controller, new MethodInvocation<T>() {
 
+			public Map<String, Object> convertParameter(String prefix, Object obj) {
+				HashMap<String, Object> map = new HashMap<String, Object>();
+
+				List<Field> fields = new Mirror().on(obj.getClass()).reflectAll().fields();
+
+				for (Field field : fields) {
+					field.setAccessible(true);
+					try {
+						Object fieldValue = field.get(obj);
+
+						if ( Calendar.class.isAssignableFrom(fieldValue.getClass())) {
+							fieldValue = new SimpleDateFormat("dd/MM/yyyy").format(((Calendar)fieldValue).getTime());
+						}
+						map.put(prefix+"."+field.getName(), fieldValue);
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
+				}
+				return map;
+			}
+
 			public Object intercept(T proxyController, Method method, Object[] args, SuperMethod superMethod) {
 				String vraptorPath = router.urlFor(controller, method, args);
 				url = context.getContextPath() + vraptorPath;
 				Map<String, String> pathParameters = getPathParameters(vraptorPath);
 				Map<String, Object> unusedParameters = findUnusedParameters(pathParameters, method, args);
+				Set<Class<?>> notConvertibleTypes = new HashSet<Class<?>>(Sets.union(Primitives.allPrimitiveTypes(), Primitives.allWrapperTypes()));
+				notConvertibleTypes.add(String.class);
+
+				Map<String,Object> convertedParameters = new HashMap<String, Object>();
+
+				Iterator<String> iterator = unusedParameters.keySet().iterator();
+
+				while(iterator.hasNext()) {
+					String key = iterator.next();
+					Object value = unusedParameters.get(key);
+					if (!notConvertibleTypes.contains(value.getClass())) {
+						convertedParameters.putAll(convertParameter(key, value));
+						iterator.remove();
+					}
+				}
+
+				unusedParameters.putAll(convertedParameters);
+
 				StringBuilder extraParams = new StringBuilder("?");
 				for (String unusedParameter : unusedParameters.keySet()) {
 					extraParams.append('&');

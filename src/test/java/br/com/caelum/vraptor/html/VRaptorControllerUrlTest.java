@@ -6,6 +6,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -85,17 +86,45 @@ public class VRaptorControllerUrlTest {
 		VRaptorControllerUrl link = new VRaptorControllerUrl(router, proxifier, context, null, null);
 		link.value();
 	}
-	
+
 	@Test
-	public void generatesLinkWithGetParameters() throws Exception {
+	public void generatesLinkWithOneGetParameter() throws Exception {
 		Class<MyController> controller = MyController.class;
 		Object[] args = { "param" };
-		
+
 		when(router.urlFor(controller, MyController.PARAM_NOT_ON_PATH_METHOD, args)).thenReturn("/path/to");
 		when(parameterNameProvider.parameterNamesFor(MyController.PARAM_NOT_ON_PATH_METHOD)).thenReturn(new String[] { "location" });
-		
+
 		link.saveUrlTo(controller).paramNotOnPath("param");
-		
+
 		assertEquals(CONTEXT + "/path/to?location=param", link.value());
+	}
+
+	@Test
+	public void generatesLinkWithManyGetParameters() throws Exception {
+		Class<MyController> controller = MyController.class;
+		Integer numberArg = 42;
+		Object[] args = { "param", numberArg };
+
+		when(router.urlFor(controller, MyController.PARAMS_NOT_ON_PATH_METHOD, args)).thenReturn("/path/to/params");
+		when(parameterNameProvider.parameterNamesFor(MyController.PARAMS_NOT_ON_PATH_METHOD)).thenReturn(new String[] { "location", "number" });
+
+		link.saveUrlTo(controller).paramsNotOnPath("param", numberArg);
+
+		assertEquals(CONTEXT + "/path/to/params?location=param&number=42", link.value());
+	}
+
+	@Test
+	public void generatesLinkWithObjectGetParameters() throws Exception {
+		Class<MyController> controller = MyController.class;
+		MyModel myModel = new MyModel("myName", new GregorianCalendar(1987, 4, 25));
+		Object[] args = { myModel };
+
+		when(router.urlFor(controller, MyController.OBJECT_PARAM_NOT_ON_PATH_METHOD, args)).thenReturn("/path/to/objectParam");
+		when(parameterNameProvider.parameterNamesFor(MyController.OBJECT_PARAM_NOT_ON_PATH_METHOD)).thenReturn(new String[] { "model" });
+
+		link.saveUrlTo(controller).objectParamNotOnPath(myModel);
+
+		assertEquals(CONTEXT + "/path/to/objectParam?model.name=myName&model.date=25/05/1987", link.value());
 	}
 }
