@@ -27,7 +27,8 @@ import br.com.caelum.vraptor.http.MutableRequest;
 import br.com.caelum.vraptor.http.ParameterNameProvider;
 import br.com.caelum.vraptor.http.route.ParametersControl;
 import br.com.caelum.vraptor.http.route.Router;
-import br.com.caelum.vraptor.proxy.DefaultProxifier;
+import br.com.caelum.vraptor.proxy.CglibProxifier;
+import br.com.caelum.vraptor.proxy.ObjenesisInstanceCreator;
 import br.com.caelum.vraptor.proxy.Proxifier;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -44,7 +45,7 @@ public class VRaptorControllerUrlTest {
 
 	@Before
 	public void setUp() throws Exception {
-		proxifier = new DefaultProxifier();
+		proxifier = new CglibProxifier(new ObjenesisInstanceCreator());
 		when(context.getContextPath()).thenReturn(CONTEXT);
 		link = new VRaptorControllerUrl(router, proxifier, context, parametersControl, parameterNameProvider);
 	}

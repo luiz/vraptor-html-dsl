@@ -7,8 +7,10 @@ import java.util.Iterator;
 
 import net.vidageek.mirror.dsl.Mirror;
 import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
+import br.com.caelum.vraptor.proxy.CglibProxifier;
 import br.com.caelum.vraptor.proxy.MethodInvocation;
-import br.com.caelum.vraptor.proxy.ObjenesisProxifier;
+import br.com.caelum.vraptor.proxy.ObjenesisInstanceCreator;
+import br.com.caelum.vraptor.proxy.Proxifier;
 import br.com.caelum.vraptor.proxy.SuperMethod;
 
 /**
@@ -99,9 +101,11 @@ public class ElementsBuilder<T> {
 
 	private final Iterable<T> objects;
 	private final Elements elements;
+	private final Proxifier proxifier;
 
 	public ElementsBuilder(Iterable<T> objects) {
 		this.objects = objects;
+		this.proxifier = new CglibProxifier(new ObjenesisInstanceCreator());
 		this.elements = new Elements();
 	}
 
@@ -121,7 +125,7 @@ public class ElementsBuilder<T> {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public <X> X using(X formatter) {
 		MethodInvocation formatterInvoker = new ElementsBuilderFormatterInvoker(formatter);
-		return (X) new ObjenesisProxifier().proxify(formatter.getClass(), formatterInvoker);
+		return (X) proxifier.proxify(formatter.getClass(), formatterInvoker);
 	}
 
 	/**
@@ -138,7 +142,7 @@ public class ElementsBuilder<T> {
 	 *         method to be called
 	 */
 	public T using(Class<T> formattable) {
-		return new ObjenesisProxifier().proxify(formattable, new MethodInvocation<T>() {
+		return proxifier.proxify(formattable, new MethodInvocation<T>() {
 
 			@Override
 			public Object intercept(T proxy, Method formatterMethod, Object[] args,

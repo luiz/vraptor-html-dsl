@@ -13,8 +13,9 @@ import java.util.List;
 import br.com.caelum.vraptor.html.tags.interfaces.NestedElement;
 import br.com.caelum.vraptor.html.transformers.DefaultTagTransformer;
 import br.com.caelum.vraptor.html.transformers.TagTransformer;
-import br.com.caelum.vraptor.proxy.DefaultProxifier;
+import br.com.caelum.vraptor.proxy.CglibProxifier;
 import br.com.caelum.vraptor.proxy.MethodInvocation;
+import br.com.caelum.vraptor.proxy.ObjenesisInstanceCreator;
 import br.com.caelum.vraptor.proxy.Proxifier;
 import br.com.caelum.vraptor.proxy.SuperMethod;
 
@@ -25,7 +26,7 @@ public class FormFor implements NestedElement {
 	private final TagTransformer tagTransformer = new DefaultTagTransformer();
 
 	private final static ThreadLocal<List<NestedElement>> childrenToGo = new ThreadLocal<List<NestedElement>>();
-	private final static Proxifier proxifier = new DefaultProxifier();
+	private final static Proxifier proxifier = new CglibProxifier(new ObjenesisInstanceCreator());
 
 	public FormFor(java.lang.Object resource) {
 		this.resource = resource;

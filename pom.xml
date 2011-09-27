@@ -34,11 +34,18 @@
 		<name>Caelum</name>
 		<url>http://www.caelum.com.br</url>
 	</organization>
+	<repositories>
+		<repository>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+			<name>Sonatype OSS Snapshots</name>
+			<id>oss-snap</id>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>br.com.caelum</groupId>
 			<artifactId>vraptor</artifactId>
-			<version>3.3.1</version>
+			<version>3.4.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
