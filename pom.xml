@@ -45,7 +45,7 @@
 		<dependency>
 			<groupId>br.com.caelum</groupId>
 			<artifactId>vraptor</artifactId>
-			<version>3.4.0-SNAPSHOT</version>
+			<version>4.3.0-beta-3</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
